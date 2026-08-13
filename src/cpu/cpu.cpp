@@ -1,4 +1,5 @@
 #include "../../include/cpu/cpu.hpp"
+#include <iostream>
 
 namespace {
     uint32_t add(ALU& adder, uint32_t inputA, uint32_t inputB) {
@@ -23,8 +24,10 @@ namespace {
 CPU::CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint):
     instrRAM(instMem),
     dataRAM(dataMem),
-    pc({entryPoint,false}),
-    halted(false) {}
+    pc({entryPoint,true}),
+    halted(false) {
+        if_id = fetch();
+    }
 
 
 void CPU::updatePC() {
@@ -34,10 +37,11 @@ void CPU::updatePC() {
 }
 IF_ID CPU::fetch() {
     if (!if_id.bubble) {
-        updatePC();
-
-        return {pc.first+4, pc.first,
-        formatReadPC(instrRAM, pc.first), false};
+        //updatePC();
+        pc.first += 4;
+        uint32_t instr = formatReadPC(instrRAM, pc.first);
+        std::cerr << "fetch: pc=" << pc.first << " instr=" << instr << '\n';
+        return {pc.first+4, pc.first, instr, false};
     } else {
         return {pc.first,pc.first,0x13,false};
     }

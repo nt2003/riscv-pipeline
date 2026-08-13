@@ -1,5 +1,6 @@
 #include "../../include/control/decoder.hpp"
 #include <stdexcept>
+#include <iostream>
 
 uint32_t extractOpcode(uint32_t instr) {
     return instr&0x7F;
@@ -46,13 +47,17 @@ InstrType getType(uint32_t instr) {
             return InstrType::J_type;
 
         default:
-            throw std::logic_error("Unknown opcode");
+            std::cout << opcode << '\n';
+            throw std::logic_error("Unknown opcode - getType");
     }
 }
 
 
 uint32_t extractImm(uint32_t instr, InstrType type) {
     switch(type) {
+        case InstrType::R_type:{
+            return 0x0;
+        }
         case InstrType::I_type:{
             return static_cast<uint32_t>(static_cast<int32_t>((instr&0xFFF00000))>>20);
         }
@@ -97,7 +102,7 @@ DecodedInstr decodeInstr(uint32_t instr) {
     di.funct3 = extractFunct3(instr);
     di.funct7 = extractFunct7(instr);
     di.type = getType(instr);
-    di.rd = extractImm(instr, di.type);
+    di.imm = extractImm(instr, di.type);
 
     return di;
 }

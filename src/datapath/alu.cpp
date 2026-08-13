@@ -1,15 +1,15 @@
 #include "../../include/datapath/alu.hpp"
 #include <cstddef>
 
-ALU::ALU() : Z_flag(false), N_flag(false), V_flag(false), C_flag(false) {};
+ALU::ALU(ALUOp op): op(op) {};
 
-void ALU::setAluData(uint32_t inputA, uint32_t inputB) {
-    inputA = inputA;
-    inputB = inputB;
+void ALU::setAluData(uint32_t inA, uint32_t inB) {
+    inputA = inA;
+    inputB = inB;
 }
 
-void ALU::setAluOp(ALUOp op) {
-    op = op;
+void ALU::setAluOp(ALUOp opn) {
+    op = opn;
 }
 
 namespace {
@@ -44,8 +44,8 @@ uint32_t ALU::output() {
             uint64_t fullSum = static_cast<uint64_t>(inputA) + static_cast<uint64_t>(negB);
             if (ans == 0) {Z_flag = true;}
             if ((ans >>31) == 1) {N_flag = true;}
-            if (ans < fullSum) {C_flag = true;}
-            if ((msb(inputA) == msb(inputB)) && (msb(inputA) != msb(ans))) {V_flag = true;}
+            if (inputA < inputB) { C_flag = true; }
+            if ((msb(inputA) == msb(negB)) && (msb(inputA) != msb(ans))) { V_flag = true; }
             break;
         }
         case ALUOp::XOR:{
@@ -86,26 +86,27 @@ uint32_t ALU::output() {
         }
         case ALUOp::SLT:{
             uint32_t negB = ~inputB + 1;
-            ans = inputA + negB;
             uint64_t fullSum = static_cast<uint64_t>(inputA) + static_cast<uint64_t>(negB);
-            if (ans == 0) {Z_flag = true;}
-            if ((ans >>31) == 1) {N_flag = true;}
-            if (ans < fullSum) {C_flag = true;}
-            if ((msb(inputA) == msb(inputB)) && (msb(inputA) != msb(ans))) {V_flag = true;}
-            
-            ans = N_flag ^ V_flag;
+            bool n = ((inputA + negB)>>31 == 1);
+            bool v = (fullSum>>31 == fullSum>>32);
+            ans = (n != v);
+
+            if (!ans) {Z_flag = true;}
+            N_flag = false;
+            C_flag = false;
+            V_flag = false;
+
             break;
         }
         case ALUOp::SLTU:{
-            uint32_t negB = ~inputB + 1;
-            ans = inputA + negB;
-            uint64_t fullSum = static_cast<uint64_t>(inputA) + static_cast<uint64_t>(negB);
-            if (ans == 0) {Z_flag = true;}
-            if ((ans >>31) == 1) {N_flag = true;}
-            if (ans < fullSum) {C_flag = true;}
-            if ((msb(inputA) == msb(inputB)) && (msb(inputA) != msb(ans))) {V_flag = true;}
+            uint64_t negB = static_cast<uint64_t>(~inputB + 1);
+            uint64_t fullSum = static_cast<uint64_t>(inputA) + negB;
             
-            ans = !C_flag;
+            ans = !(fullSum>>32);
+            if (!ans) {Z_flag = true;}
+            N_flag = false;
+            C_flag = false;
+            V_flag = false;
             break;
         }
     }

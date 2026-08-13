@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include "memory.hpp"
+#include "../memory/memory.hpp"
+#include "../memory/memory_formatter.hpp"
 
 /**
  * @brief Loads an ELF executable into memory, copying each PT_LOAD segment

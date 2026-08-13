@@ -218,21 +218,27 @@ void ControlUnit::setSigs(DecodedInstr instr) {
             switch(instr.funct3) {
                 case 0x0: {
                     es.FS = ALUOp::SUB;
+                    break;
                 }
                 case 0x1: {
                     es.FS = ALUOp::SUB;
+                    break;
                 }
                 case 0x4: {
                     es.FS = ALUOp::SLT;
+                    break;
                 }
                 case 0x5: {
                     es.FS = ALUOp::SLT;
+                    break;
                 }
                 case 0x6: {
                     es.FS = ALUOp::SLTU;
+                    break;
                 }
                 case 0x7: {
                     es.FS = ALUOp::SLTU;
+                    break;
                 }
                 default: {
                     throw std::logic_error("Unknow funct3 - B-type instr");
@@ -287,7 +293,7 @@ void ControlUnit::setSigs(DecodedInstr instr) {
             break;
         }
         case 0x17: {
-            fs.PCJ = 0x2;
+            fs.PCJ = 0;
             
             es.MA = 0x1;
             es.MB = 0x1;
@@ -315,7 +321,7 @@ void ControlUnit::setSigs(DecodedInstr instr) {
             wbs.DR = 0x0;
         }
         default: {
-            throw std::logic_error("Unknown opcode");
+            throw std::logic_error("Unknown opcode - setSigs");
         } 
     }
 }

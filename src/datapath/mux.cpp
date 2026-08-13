@@ -3,7 +3,12 @@
 Mux::Mux(size_t size): inputs(size) {}
 
 uint32_t Mux::getOutput() {
-    return inputs.at(inputSelected);
+    if (enable) {
+        return inputs.at(inputSelected);
+    } else {
+        return 0x0;
+    }
+    
 }
 
 void Mux::setInput(uint32_t slot, uint32_t data) {

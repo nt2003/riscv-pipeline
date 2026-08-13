@@ -1,9 +1,9 @@
-#include "elf_loader.hpp"
+#include "../include/memory/memory.hpp"
+#include "../include/loader/elf_loader.hpp"
 #include <string>
 #include <iostream>
 #include <vector>
-#include "../include/memory/memory.hpp"
-#include "cpu.hpp"
+#include "../include/cpu/cpu.hpp"
 #include <stdexcept>
 
 int main() {
@@ -16,6 +16,8 @@ int main() {
         std::cerr << "Failed to load" << '\n';
         return 1;
     }
+    std::cout << entryPoint << '\n';
+    std::cout << formatReadPC(instRAM, entryPoint) << '\n';
 
     CPU cpu(instRAM, dataRAM, entryPoint);
 

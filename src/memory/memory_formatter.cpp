@@ -6,18 +6,21 @@ void formatWrite(MemoryWrite mw) {
         case MemSize::BYTE: {
             mw.memory.write(mw.addr, static_cast<uint8_t>(
                 mw.data));
+            break;
         }
         case MemSize::HALFWORD: {
             mw.memory.write(mw.addr, static_cast<uint8_t>(
                 mw.data));
             mw.memory.write(mw.addr+1, static_cast<uint8_t>(
                 mw.data>>8));
+            break;
         }
         case MemSize::WORD: {
             for (size_t i=0; i<4; i++) {
                 mw.memory.write(mw.addr+i, static_cast<uint8_t>(
                     mw.data>>(8*i)));
             }
+            break;
         }
         default: {
             throw std::logic_error("Unknown size");
@@ -34,10 +37,11 @@ uint32_t formatRead(MemoryRead mr) {
             } else {
                 return static_cast<uint32_t> (mr.memory.read(mr.addr));
             }
+            break;
     
         }
         case MemSize::HALFWORD: {
-            uint16_t half; 
+            uint16_t half = 0; 
             half += mr.memory.read(mr.addr);
             half += mr.memory.read(mr.addr+1) << 8;
             if (mr.MSN == MemSign::S) {
@@ -47,14 +51,16 @@ uint32_t formatRead(MemoryRead mr) {
             } else {
                 return static_cast<uint32_t>(half);
             }
+            break;
         }
         case MemSize::WORD: {
-            uint32_t word;
+            uint32_t word = 0;
             for (size_t i=0; i<4; i++) {
-                word = static_cast<uint32_t>(
+                word += static_cast<uint32_t>(
                     mr.memory.read(mr.addr+i)) << (8*i);
             }
             return word;
+            break;
         }
         default: {
             throw std::logic_error("Unknown size");
