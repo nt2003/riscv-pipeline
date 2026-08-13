@@ -4,6 +4,12 @@
 #include "../memory/memory_formatter.hpp"
 #include "../pipeline/pipeline_regs.hpp"
 #include "../datapath/mux.hpp"
+#include "../datapath/reg_file.hpp"
+#include "../datapath/alu.hpp"
+#include "../datapath/alu_types.hpp"
+#include "../control/control_unit.hpp"
+#include "../control/decoder.hpp"
+
 
 class CPU {
     private:
@@ -13,6 +19,21 @@ class CPU {
         Mux pcMux{3};
         IF_ID if_id;
 
+        //Decode
+        ControlUnit cu;
+        ALU adder;
+        ALU comparator;
+        RegFile regFile{32};
+        Mux FwdMuxA{3};
+        Mux FwdMuxB{3};
+        ID_EX id_ex;
+
+        //Execute
+        EX_MEM ex_mem;
+
+        //Memory
+        MEM_WB mem_wb;
+
 
 
     public:
@@ -20,4 +41,9 @@ class CPU {
 
         IF_ID fetch();
         void updatePC();
+
+        ID_EX decode();
+
+
+        
 };
