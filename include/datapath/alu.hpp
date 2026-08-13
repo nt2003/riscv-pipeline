@@ -26,6 +26,8 @@ class ALU {
 
         uint32_t output();
         CompareSig getCompareSig();
+        ALUFlags getFlags();
+
         void resetFlags();
         bool getZ();
         bool getN();

@@ -49,9 +49,9 @@ ID_EX CPU::decode() {
     DecodedInstr d = decodeInstr(if_id.raw_instr);
     bool halt = (d.opcode == 0x73);
 
-    cu.setSigs(d);
     pcMux.setInput(0x1, add(adder, d.imm, if_id.pc_curr));
-    
+    cu.setSigs(d);
+
     regFile.setRegSigs({mem_wb.DR, cu.getDecodeSig().SA,
         cu.getDecodeSig().SB, mem_wb.LD});
     regFile.writeReg(mem_wb.Dout);
@@ -63,7 +63,7 @@ ID_EX CPU::decode() {
     uint32_t muxOutputB = FwdMuxB_ID.getOutput();
 
     cu.setCompareSig(
-        compare(comparator, muxOutputA, muxOutputB));
+        compare(comparator, muxOutputA, muxOutputB), d.funct3);
 
     pcMux.selectInput(cu.getFetchSig().PCJ);
 
