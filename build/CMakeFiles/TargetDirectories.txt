@@ -1,0 +1,4 @@
+/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles/riscv-pipeline.dir
+/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles/tests.dir
+/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles/edit_cache.dir
+/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles/rebuild_cache.dir
