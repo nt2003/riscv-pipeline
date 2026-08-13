@@ -24,11 +24,16 @@ class CPU {
         ALU adder;
         ALU comparator;
         RegFile regFile{32};
-        Mux FwdMuxA{3};
-        Mux FwdMuxB{3};
+        Mux FwdMuxA_ID{3};
+        Mux FwdMuxB_ID{3};
         ID_EX id_ex;
 
         //Execute
+        ALU alu;
+        Mux FwdMuxA_EX{3};
+        Mux FwdMuxB_EX{3};
+        Mux aluInputAMux{2};
+        Mux aluInputBMux{2};
         EX_MEM ex_mem;
 
         //Memory
@@ -44,6 +49,6 @@ class CPU {
 
         ID_EX decode();
 
-
+        EX_MEM execute();
         
 };

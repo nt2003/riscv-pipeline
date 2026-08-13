@@ -47,11 +47,11 @@ ID_EX CPU::decode() {
         cu.getDecodeSig().SB, mem_wb.LD});
     regFile.writeReg(mem_wb.Dout);
     
-    setMuxInputs(FwdMuxA, {regFile.getDataA(), ex_mem.aluResult, mem_wb.Dout});
-    setMuxInputs(FwdMuxB, {regFile.getDataB(), ex_mem.aluResult, mem_wb.Dout});
+    setMuxInputs(FwdMuxA_ID, {regFile.getDataA(), ex_mem.aluResult, mem_wb.Dout});
+    setMuxInputs(FwdMuxB_ID, {regFile.getDataB(), ex_mem.aluResult, mem_wb.Dout});
 
-    uint32_t muxOutputA = FwdMuxA.getOutput();
-    uint32_t muxOutputB = FwdMuxB.getOutput();
+    uint32_t muxOutputA = FwdMuxA_ID.getOutput();
+    uint32_t muxOutputB = FwdMuxB_ID.getOutput();
 
     cu.setCompareSig(
         compare(comparator, muxOutputA, muxOutputB));
@@ -62,4 +62,19 @@ ID_EX CPU::decode() {
         d.imm, cu.getExecuteSig(), cu.getMemorySig(), 
         cu.getWriteBackSig(), false};
 }
-    
+
+
+EX_MEM CPU::execute() {
+    setMuxInputs(FwdMuxA_EX, {id_ex.srcA, ex_mem.aluResult, mem_wb.Dout});
+    setMuxInputs(FwdMuxB_EX, {id_ex.srcB, ex_mem.aluResult, mem_wb.Dout});
+
+    setMuxInputs(aluInputAMux, {FwdMuxA_EX.getOutput(), id_ex.pc_curr});
+    aluInputAMux.selectInput(id_ex.es.MA);
+    setMuxInputs(aluInputBMux, {FwdMuxB_EX.getOutput(), id_ex.imm});
+    aluInputBMux.selectInput(id_ex.es.MB);
+
+    alu.setAluData(aluInputAMux.getOutput(), aluInputBMux.getOutput());
+    alu.setAluOp(id_ex.es.FS);
+
+    return {alu.output(), aluInputBMux.getOutput(), id_ex.ms, id_ex.wbs};
+}

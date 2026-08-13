@@ -11,6 +11,7 @@ struct DecodeSig {
     uint32_t        SB;
 };
 struct ExecuteSig {
+    uint32_t        MA;
     uint32_t        MB;
     ALUOp           FS;
 };

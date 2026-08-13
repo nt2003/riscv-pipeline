@@ -30,8 +30,11 @@ struct ID_EX {
 };
 
 struct EX_MEM {
-    uint32_t    aluResult;
-    uint32_t    data;
+    uint32_t        aluResult;
+    uint32_t        data;
+
+    MemorySig       ms;
+    WriteBackSig    wbs;
 };
 
 struct MEM_WB {
