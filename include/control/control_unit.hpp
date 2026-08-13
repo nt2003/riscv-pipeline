@@ -48,7 +48,7 @@ class ControlUnit {
         MemorySig getMemorySig();
         WriteBackSig getWriteBackSig();
 
-        ALUOp getALUSig();
+        // ALUOp getALUSig();
 
     
 };

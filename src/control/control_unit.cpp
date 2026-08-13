@@ -352,4 +352,22 @@ void ControlUnit::setCompareSig(CompareSig cs, uint32_t funct3) {
     }
 }
 
+FetchSig ControlUnit::getFetchSig() {
+    return fs;
+}
 
+DecodeSig ControlUnit::getDecodeSig() {
+    return ds;
+}
+
+ExecuteSig ControlUnit::getExecuteSig() {
+    return es;
+}
+
+MemorySig ControlUnit::getMemorySig() {
+    return ms;
+}
+
+WriteBackSig ControlUnit::getWriteBackSig() {
+    return wbs;
+}
