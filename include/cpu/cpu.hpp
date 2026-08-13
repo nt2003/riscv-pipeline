@@ -57,5 +57,7 @@ class CPU {
         EX_MEM execute();
 
         MEM_WB loadStoreMem();
+
+        void cycle();
         
 };

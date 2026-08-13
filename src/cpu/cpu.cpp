@@ -47,9 +47,7 @@ IF_ID CPU::fetch() {
 
 ID_EX CPU::decode() {
     DecodedInstr d = decodeInstr(if_id.raw_instr);
-    if (d.opcode == 0x73) {
-        id_ex.halt = true;
-    } else {id_ex.halt = false;}
+    bool halt = (d.opcode == 0x73);
 
     cu.setSigs(d);
     pcMux.setInput(0x1, add(adder, d.imm, if_id.pc_curr));
@@ -71,7 +69,7 @@ ID_EX CPU::decode() {
 
     return {if_id.pc_curr, if_id.pc_next, muxOutputA, muxOutputB,
         d.imm, cu.getExecuteSig(), cu.getMemorySig(), 
-        cu.getWriteBackSig(), false, id_ex.halt};
+        cu.getWriteBackSig(), false, halt};
 }
 
 
@@ -89,11 +87,11 @@ EX_MEM CPU::execute() {
     alu.setAluOp(id_ex.es.FS);
 
     return {alu.output(), aluInputBMux.getOutput(), id_ex.pc_next, 
-        id_ex.ms, id_ex.wbs, false, ex_mem.halt};
+        id_ex.ms, id_ex.wbs, false, id_ex.halt};
 }
 
 MEM_WB CPU::loadStoreMem() {
-    ishalted = mem_wb.halt;
+    ishalted = ex_mem.halt;
 
     dataRAM.setInputs(ex_mem.aluResult, ex_mem.data);
     dataRAM.setWriteEnable(ex_mem.ms.MW);
@@ -103,5 +101,17 @@ MEM_WB CPU::loadStoreMem() {
 
     setMuxInputs(writeBackMux, {ex_mem.aluResult, load, ex_mem.pc_next});
 
-    return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD, false, mem_wb.halt};
+    return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD, false, ex_mem.halt};
+}
+
+void CPU::cycle() {
+    IF_ID ifid_next = fetch();
+    ID_EX idex_next = decode();
+    EX_MEM exmem_next = execute();
+    MEM_WB memwb_next = loadStoreMem();
+
+    if_id = ifid_next;
+    id_ex = idex_next;
+    ex_mem = exmem_next;
+    mem_wb = memwb_next;
 }
