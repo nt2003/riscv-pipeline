@@ -1,13 +1,17 @@
 #pragma once
 #include <cstdint>
 #include "memory.hpp"
+#include "memory_types.hpp"
 
 struct MemoryWrite {
     Memory&     memory;
+    uint32_t    addr;
+    uint32_t    data;
     MemSize     MSZ;
 };
 struct MemoryRead {
     Memory&     memory;
+    uint32_t    addr;
     MemSign     MSN;
     MemSize     MSZ;
 };

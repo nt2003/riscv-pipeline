@@ -1,13 +1,6 @@
 #pragma once
 #include <cstdint>
-
-enum class MemSize {
-    BYTE, HALFWORD, WORD
-};
-
-enum class MemSign {
-    U, S
-};
+#include "../memory/memory_types.hpp"
 
 struct IF_ID {
     uint32_t    pc_next;

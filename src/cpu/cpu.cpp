@@ -93,11 +93,11 @@ EX_MEM CPU::execute() {
 MEM_WB CPU::loadStoreMem() {
     ishalted = ex_mem.halt;
 
-    dataRAM.setInputs(ex_mem.aluResult, ex_mem.data);
     dataRAM.setWriteEnable(ex_mem.ms.MW);
 
-    formatWrite({dataRAM,ex_mem.ms.MSZ});
-    uint32_t load = formatRead({dataRAM,ex_mem.ms.MSN, ex_mem.ms.MSZ});
+    formatWrite({dataRAM, ex_mem.aluResult, ex_mem.data, ex_mem.ms.MSZ});
+    uint32_t load = formatRead({dataRAM, ex_mem.aluResult ,ex_mem.ms.MSN, 
+        ex_mem.ms.MSZ});
 
     setMuxInputs(writeBackMux, {ex_mem.aluResult, load, ex_mem.pc_next});
 
