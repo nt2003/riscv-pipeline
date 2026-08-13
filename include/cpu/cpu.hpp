@@ -37,12 +37,17 @@ class CPU {
         EX_MEM ex_mem;
 
         //Memory
+        Memory dataRAM;
+        Mux writeBackMux{3};
         MEM_WB mem_wb;
+
+        //END PROGRAM
+        bool ishalted;
 
 
 
     public:
-        CPU(Memory& instMem, uint32_t entryPoint);
+        CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint);
 
         IF_ID fetch();
         void updatePC();
@@ -50,5 +55,7 @@ class CPU {
         ID_EX decode();
 
         EX_MEM execute();
+
+        MEM_WB loadStoreMem();
         
 };

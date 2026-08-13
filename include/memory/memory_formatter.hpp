@@ -2,8 +2,18 @@
 #include <cstdint>
 #include "memory.hpp"
 
-//void formatWrite(Memory& memory, MemoryData mdata, MemControl mc);
+struct MemoryWrite {
+    Memory&     memory;
+    MemSize     MSZ;
+};
+struct MemoryRead {
+    Memory&     memory;
+    MemSign     MSN;
+    MemSize     MSZ;
+};
 
-//uint32_t formatRead(Memory& memory,  MemoryData mdata, MemControl mc);
+void formatWrite(MemoryWrite mw);
+
+uint32_t formatRead(MemoryRead mr);
 
 uint32_t formatReadPC(Memory& memory, uint32_t pc);
