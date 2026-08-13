@@ -24,7 +24,7 @@ CPU::CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint):
     instrRAM(instMem),
     dataRAM(dataMem),
     pc({entryPoint,false}),
-    ishalted(false) {}
+    halted(false) {}
 
 
 void CPU::updatePC() {
@@ -91,7 +91,7 @@ EX_MEM CPU::execute() {
 }
 
 MEM_WB CPU::loadStoreMem() {
-    ishalted = ex_mem.halt;
+    halted = ex_mem.halt;
 
     dataRAM.setWriteEnable(ex_mem.ms.MW);
 
@@ -114,4 +114,12 @@ void CPU::cycle() {
     id_ex = idex_next;
     ex_mem = exmem_next;
     mem_wb = memwb_next;
+}
+
+bool CPU::isHalted() {
+    return halted;
+}
+
+std::vector<uint32_t> CPU::getRegFile() {
+    return regFile.getRegFile();
 }

@@ -27,6 +27,8 @@ class RegFile {
 
         uint32_t getDataB();
 
+        std::vector<uint32_t> getRegFile();
+
         //void resetBits();
 
 };

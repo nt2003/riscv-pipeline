@@ -10,7 +10,9 @@ void RegFile::setRegSigs(RegfileControl rc) {
 }
 
 void RegFile::writeReg(uint32_t dataIn) {
-    contents.at(destReg) = dataIn;
+    if (writeEnable && (destReg != 0x0)) {
+        contents.at(destReg) = dataIn;
+    }
 }
 
 uint32_t RegFile::getDataA() {
@@ -19,5 +21,9 @@ uint32_t RegFile::getDataA() {
 
 uint32_t RegFile::getDataB() {
     return contents.at(srcAddrB);
+}
+
+std::vector<uint32_t> RegFile::getRegFile() {
+    return contents;
 }
 

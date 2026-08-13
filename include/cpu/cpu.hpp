@@ -42,7 +42,7 @@ class CPU {
         MEM_WB mem_wb;
 
         //END PROGRAM
-        bool ishalted;
+        bool halted;
 
 
 
@@ -59,5 +59,9 @@ class CPU {
         MEM_WB loadStoreMem();
 
         void cycle();
+
+        bool isHalted();
+
+        std::vector<uint32_t> getRegFile();
         
 };
