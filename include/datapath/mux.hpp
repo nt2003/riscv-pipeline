@@ -5,9 +5,9 @@ class Mux {
     private:
         std::vector<uint32_t> inputs;
 
-        uint32_t inputSelected;
+        uint32_t inputSelected = 0x0;
 
-        bool enable;
+        bool enable = true;
 
     public:
         Mux(size_t size);
