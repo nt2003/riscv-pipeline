@@ -17,7 +17,7 @@ class ControlUnit {
         ControlUnit();
 
         void setSigs(DecodedInstr instr);
-        void setCompareSig(CompareSig cs, uint32_t funct3);
+        void setCompareSig(CompareSig cs, uint32_t funct3, InstrType type);
     
         FetchSig getFetchSig();
         DecodeSig getDecodeSig();

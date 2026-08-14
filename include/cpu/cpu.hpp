@@ -9,6 +9,7 @@
 #include "../datapath/alu_types.hpp"
 #include "../control/control_unit.hpp"
 #include "../control/decoder.hpp"
+#include "../control/hazard_detection_unit.hpp"
 
 
 class CPU {
@@ -44,13 +45,14 @@ class CPU {
         //END PROGRAM
         bool halted;
 
+        HazardDetector hd;
 
+        void updatePC();
 
     public:
         CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint);
 
         IF_ID fetch();
-        void updatePC();
 
         ID_EX decode();
 
@@ -63,5 +65,11 @@ class CPU {
         bool isHalted();
 
         std::vector<uint32_t> getRegFile();
+
+
+
+
+        
+        std::pair<uint32_t, bool> getPC();
         
 };

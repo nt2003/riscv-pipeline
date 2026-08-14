@@ -24,32 +24,49 @@ namespace {
 CPU::CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint):
     instrRAM(instMem),
     dataRAM(dataMem),
-    pc({entryPoint,true}),
-    halted(false) {
-        if_id = fetch();
-    }
+    pc({entryPoint,false}),
+    halted(false), 
+    if_id{0, 0, 0, true}  // bubble = true: nothing fetched yet before cycle 1
+        {pcMux.setInput(0x0, entryPoint);
+        pcMux.selectInput(0x0);}
 
 
 void CPU::updatePC() {
-    if (pc.second && !id_ex.halt) {
-        pc.first = pcMux.getOutput();
+    if (!pc.second || id_ex.halt) {
+        return; // PCL held low (hazard stall), or halted — hold PC
     }
+    pc.first = pcMux.getOutput();
 }
+std::pair<uint32_t, bool> CPU::getPC() {
+    return pc;
+}
+
 IF_ID CPU::fetch() {
-    if (!if_id.bubble) {
-        //updatePC();
-        pc.first += 4;
-        uint32_t instr = formatReadPC(instrRAM, pc.first);
-        std::cerr << "fetch: pc=" << pc.first << " instr=" << instr << '\n';
-        return {pc.first+4, pc.first, instr, false};
-    } else {
-        return {pc.first,pc.first,0x13,false};
-    }
-    
+    bool stall = false;
+    pc.second = !stall;
+
+    updatePC();
+
+    uint32_t currentPC = pc.first;
+    uint32_t nextpc = pc.first + 4;
+    uint32_t rawInstr = formatRead({instrRAM, currentPC, MemSign::S, MemSize::WORD});
+
+    pcMux.setInput(0x0, nextpc);
+
+    return IF_ID{nextpc, currentPC, rawInstr, false};
 }
 
 
 ID_EX CPU::decode() {
+    std::cout << "decode() called: if_id.bubble=" << if_id.bubble
+              << " raw_instr=0x" << std::hex << if_id.raw_instr << std::dec << "\n";
+
+    if (if_id.bubble) {
+        ID_EX bubble;
+        bubble.bubble = true;
+        return bubble; // everything else stays at struct defaults (all zero/false)
+    }
+
     DecodedInstr d = decodeInstr(if_id.raw_instr);
     bool halt = (d.opcode == 0x73);
 
@@ -67,7 +84,7 @@ ID_EX CPU::decode() {
     uint32_t muxOutputB = FwdMuxB_ID.getOutput();
 
     cu.setCompareSig(
-        compare(comparator, muxOutputA, muxOutputB), d.funct3);
+        compare(comparator, muxOutputA, muxOutputB), d.funct3, d.type);
 
     pcMux.selectInput(cu.getFetchSig().PCJ);
 
@@ -90,6 +107,7 @@ EX_MEM CPU::execute() {
     alu.setAluData(aluInputAMux.getOutput(), aluInputBMux.getOutput());
     alu.setAluOp(id_ex.es.FS);
 
+    pcMux.setInput(0x2, alu.output());
     return {alu.output(), aluInputBMux.getOutput(), id_ex.pc_next, 
         id_ex.ms, id_ex.wbs, false, id_ex.halt};
 }

@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/riscv-pipeline.dir/src/control/control_unit.cpp.o.d"
   "CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.o"
   "CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.o.d"
+  "CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o"
+  "CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o.d"
   "CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o"
   "CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o.d"
   "CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o"

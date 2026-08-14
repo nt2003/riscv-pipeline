@@ -17,13 +17,16 @@ add_executable(tests
     tests/control_unit_tb.cpp
     tests/decoder_tb.cpp
     tests/memory_tb.cpp
+    tests/cpu_tb.cpp
 
     src/datapath/alu.cpp
     src/datapath/mux.cpp
     src/datapath/reg_file.cpp
     src/control/control_unit.cpp
     src/control/decoder.cpp
+    src/control/hazard_detection_unit.cpp
     src/memory/memory.cpp
     src/memory/memory_formatter.cpp
+    src/cpu/cpu.cpp
 )
 target_include_directories(tests PRIVATE src external)

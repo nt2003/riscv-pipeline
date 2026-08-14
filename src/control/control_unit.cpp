@@ -319,6 +319,7 @@ void ControlUnit::setSigs(DecodedInstr instr) {
 
             wbs.LD = false;
             wbs.DR = 0x0;
+            break;
         }
         default: {
             throw std::logic_error("Unknown opcode - setSigs");
@@ -326,34 +327,36 @@ void ControlUnit::setSigs(DecodedInstr instr) {
     }
 }
 
-void ControlUnit::setCompareSig(CompareSig cs, uint32_t funct3) {
-    switch(funct3) {
-        case 0x0: {
-            fs.PCJ = static_cast<uint32_t>(cs.equal);
-            break;
-        }
-        case 0x1: {
-            fs.PCJ = static_cast<uint32_t>(!cs.equal);
-            break;
-        }
-        case 0x4: {
-            fs.PCJ = static_cast<uint32_t>(cs.lessThan);
-            break;
-        }
-        case 0x5: {
-            fs.PCJ = static_cast<uint32_t>(!cs.lessThan);
-            break;
-        }
-        case 0x6: {
-            fs.PCJ = static_cast<uint32_t>(cs.lessThanU);
-            break;
-        }
-        case 0x7: {
-            fs.PCJ = static_cast<uint32_t>(!cs.lessThanU);
-            break;
-        }
-        default: {
-            throw std::logic_error("Unknown funct3");
+void ControlUnit::setCompareSig(CompareSig cs, uint32_t funct3, InstrType type) {
+    if (type == InstrType::B_type) {
+        switch(funct3) {
+            case 0x0: {
+                fs.PCJ = static_cast<uint32_t>(cs.equal);
+                break;
+            }
+            case 0x1: {
+                fs.PCJ = static_cast<uint32_t>(!cs.equal);
+                break;
+            }
+            case 0x4: {
+                fs.PCJ = static_cast<uint32_t>(cs.lessThan);
+                break;
+            }
+            case 0x5: {
+                fs.PCJ = static_cast<uint32_t>(!cs.lessThan);
+                break;
+            }
+            case 0x6: {
+                fs.PCJ = static_cast<uint32_t>(cs.lessThanU);
+                break;
+            }
+            case 0x7: {
+                fs.PCJ = static_cast<uint32_t>(!cs.lessThanU);
+                break;
+            }
+            default: {
+                throw std::logic_error("Unknown funct3");
+            }
         }
     }
 }

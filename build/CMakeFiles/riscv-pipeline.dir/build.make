@@ -100,10 +100,24 @@ CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nicolastrejo/riscv-pipeline/src/control/decoder.cpp -o CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.s
 
+CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
+CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/control/hazard_detection_unit.cpp
+CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/control/hazard_detection_unit.cpp
+
+CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nicolastrejo/riscv-pipeline/src/control/hazard_detection_unit.cpp > CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.i
+
+CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nicolastrejo/riscv-pipeline/src/control/hazard_detection_unit.cpp -o CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.s
+
 CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/cpu/cpu.cpp
 CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/cpu/cpu.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/datapath/alu.cpp
 CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/datapath/alu.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.i: cmake_force
@@ -131,7 +145,7 @@ CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/datapath/mux.cpp
 CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/datapath/mux.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.i: cmake_force
@@ -145,7 +159,7 @@ CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/datapath/reg_file.cpp
 CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/datapath/reg_file.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/riscv-pipeline.dir/src/datapath/reg_file.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/loader/elf_loader.cpp
 CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/loader/elf_loader.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles/riscv-pipeline.dir/src/loader/elf_loader.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/main.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/main.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/main.cpp
 CMakeFiles/riscv-pipeline.dir/src/main.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/main.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/main.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/main.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/main.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/main.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/riscv-pipeline.dir/src/main.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/memory/memory.cpp
 CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/memory/memory.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.s: cmake_force
 CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o: CMakeFiles/riscv-pipeline.dir/flags.make
 CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/memory/memory_formatter.cpp
 CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o: CMakeFiles/riscv-pipeline.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o -MF CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o.d -o CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/memory/memory_formatter.cpp
 
 CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.i: cmake_force
@@ -216,6 +230,7 @@ CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.s: cmake_force
 riscv__pipeline_OBJECTS = \
 "CMakeFiles/riscv-pipeline.dir/src/control/control_unit.cpp.o" \
 "CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.o" \
+"CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o" \
 "CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o" \
 "CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o" \
 "CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o" \
@@ -230,6 +245,7 @@ riscv__pipeline_EXTERNAL_OBJECTS =
 
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/control/control_unit.cpp.o
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.o
+riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/datapath/mux.cpp.o
@@ -240,7 +256,7 @@ riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/memory/memory.cpp.o
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/src/memory/memory_formatter.cpp.o
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/build.make
 riscv-pipeline: CMakeFiles/riscv-pipeline.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable riscv-pipeline"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable riscv-pipeline"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/riscv-pipeline.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
