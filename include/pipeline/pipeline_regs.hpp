@@ -40,6 +40,9 @@ struct ID_EX {
     uint32_t        srcB = 0;
     uint32_t        imm = 0;
 
+    uint32_t        EX_SA;
+    uint32_t        EX_SB;
+    
     ExecuteSig      es;
     MemorySig       ms;
     WriteBackSig    wbs;

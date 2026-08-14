@@ -58,9 +58,6 @@ IF_ID CPU::fetch() {
 
 
 ID_EX CPU::decode() {
-    std::cout << "decode() called: if_id.bubble=" << if_id.bubble
-              << " raw_instr=0x" << std::hex << if_id.raw_instr << std::dec << "\n";
-
     if (if_id.bubble) {
         ID_EX bubble;
         bubble.bubble = true;
@@ -80,6 +77,25 @@ ID_EX CPU::decode() {
     setMuxInputs(FwdMuxA_ID, {regFile.getDataA(), ex_mem.aluResult, mem_wb.Dout});
     setMuxInputs(FwdMuxB_ID, {regFile.getDataB(), ex_mem.aluResult, mem_wb.Dout});
 
+    FwdMuxA_ID.selectInput(
+                    getInputFwdMux_ID(
+                        {cu.getDecodeSig().SA,
+                        d.type == InstrType::B_type,     
+                        id_ex.EX_SA,
+                        ex_mem.ms.MD, 
+                        ex_mem.wbs.DR, 
+                        mem_wb.DR}));
+
+    FwdMuxB_ID.selectInput(
+                    getInputFwdMux_ID(
+                        {cu.getDecodeSig().SB,
+                        d.type == InstrType::B_type,  
+                        id_ex.EX_SB, 
+                        ex_mem.ms.MD,
+                        ex_mem.wbs.DR, 
+                        mem_wb.DR}));
+
+
     uint32_t muxOutputA = FwdMuxA_ID.getOutput();
     uint32_t muxOutputB = FwdMuxB_ID.getOutput();
 
@@ -89,8 +105,8 @@ ID_EX CPU::decode() {
     pcMux.selectInput(cu.getFetchSig().PCJ);
 
     return {if_id.pc_curr, if_id.pc_next, muxOutputA, muxOutputB,
-        d.imm, cu.getExecuteSig(), cu.getMemorySig(), 
-        cu.getWriteBackSig(), false, halt};
+        d.imm, cu.getDecodeSig().SA, cu.getDecodeSig().SB, cu.getExecuteSig(), 
+        cu.getMemorySig(), cu.getWriteBackSig(), false, halt};
 }
 
 
@@ -98,6 +114,21 @@ EX_MEM CPU::execute() {
 
     setMuxInputs(FwdMuxA_EX, {id_ex.srcA, ex_mem.aluResult, mem_wb.Dout});
     setMuxInputs(FwdMuxB_EX, {id_ex.srcB, ex_mem.aluResult, mem_wb.Dout});
+   
+    FwdMuxA_EX.selectInput(
+                    getInputFwdMux_EX(
+                        {id_ex.EX_SA,
+                        ex_mem.wbs.DR,
+                        ex_mem.ms.MD,
+                        mem_wb.DR}
+                    ));
+    FwdMuxB_EX.selectInput(
+                    getInputFwdMux_EX(
+                        {id_ex.EX_SB,
+                        ex_mem.wbs.DR,
+                        ex_mem.ms.MD,
+                        mem_wb.DR}
+                    ));
 
     setMuxInputs(aluInputAMux, {FwdMuxA_EX.getOutput(), id_ex.pc_curr});
     aluInputAMux.selectInput(id_ex.es.MA);

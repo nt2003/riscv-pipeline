@@ -10,6 +10,7 @@
 #include "../control/control_unit.hpp"
 #include "../control/decoder.hpp"
 #include "../control/hazard_detection_unit.hpp"
+#include "../control/forwarding_unit.hpp"
 
 
 class CPU {

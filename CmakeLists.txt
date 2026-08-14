@@ -25,6 +25,7 @@ add_executable(tests
     src/control/control_unit.cpp
     src/control/decoder.cpp
     src/control/hazard_detection_unit.cpp
+    src/control/forwarding_unit.cpp
     src/memory/memory.cpp
     src/memory/memory_formatter.cpp
     src/cpu/cpu.cpp
