@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/tests.dir/src/control/control_unit.cpp.o.d"
   "CMakeFiles/tests.dir/src/control/decoder.cpp.o"
   "CMakeFiles/tests.dir/src/control/decoder.cpp.o.d"
+  "CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o"
+  "CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o.d"
   "CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.o"
   "CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.o.d"
   "CMakeFiles/tests.dir/src/cpu/cpu.cpp.o"

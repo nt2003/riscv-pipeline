@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/nicolastrejo/riscv-pipeline/src/control/control_unit.cpp" "CMakeFiles/riscv-pipeline.dir/src/control/control_unit.cpp.o" "gcc" "CMakeFiles/riscv-pipeline.dir/src/control/control_unit.cpp.o.d"
   "/Users/nicolastrejo/riscv-pipeline/src/control/decoder.cpp" "CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.o" "gcc" "CMakeFiles/riscv-pipeline.dir/src/control/decoder.cpp.o.d"
+  "/Users/nicolastrejo/riscv-pipeline/src/control/forwarding_unit.cpp" "CMakeFiles/riscv-pipeline.dir/src/control/forwarding_unit.cpp.o" "gcc" "CMakeFiles/riscv-pipeline.dir/src/control/forwarding_unit.cpp.o.d"
   "/Users/nicolastrejo/riscv-pipeline/src/control/hazard_detection_unit.cpp" "CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o" "gcc" "CMakeFiles/riscv-pipeline.dir/src/control/hazard_detection_unit.cpp.o.d"
   "/Users/nicolastrejo/riscv-pipeline/src/cpu/cpu.cpp" "CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o" "gcc" "CMakeFiles/riscv-pipeline.dir/src/cpu/cpu.cpp.o.d"
   "/Users/nicolastrejo/riscv-pipeline/src/datapath/alu.cpp" "CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o" "gcc" "CMakeFiles/riscv-pipeline.dir/src/datapath/alu.cpp.o.d"

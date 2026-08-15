@@ -196,6 +196,33 @@ src/control/decoder.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/control/decoder.cpp.s
 .PHONY : src/control/decoder.cpp.s
 
+src/control/forwarding_unit.o: src/control/forwarding_unit.cpp.o
+.PHONY : src/control/forwarding_unit.o
+
+# target to build an object file
+src/control/forwarding_unit.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/riscv-pipeline.dir/build.make CMakeFiles/riscv-pipeline.dir/src/control/forwarding_unit.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o
+.PHONY : src/control/forwarding_unit.cpp.o
+
+src/control/forwarding_unit.i: src/control/forwarding_unit.cpp.i
+.PHONY : src/control/forwarding_unit.i
+
+# target to preprocess a source file
+src/control/forwarding_unit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/riscv-pipeline.dir/build.make CMakeFiles/riscv-pipeline.dir/src/control/forwarding_unit.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.i
+.PHONY : src/control/forwarding_unit.cpp.i
+
+src/control/forwarding_unit.s: src/control/forwarding_unit.cpp.s
+.PHONY : src/control/forwarding_unit.s
+
+# target to generate assembly for a file
+src/control/forwarding_unit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/riscv-pipeline.dir/build.make CMakeFiles/riscv-pipeline.dir/src/control/forwarding_unit.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.s
+.PHONY : src/control/forwarding_unit.cpp.s
+
 src/control/hazard_detection_unit.o: src/control/hazard_detection_unit.cpp.o
 .PHONY : src/control/hazard_detection_unit.o
 
@@ -617,6 +644,9 @@ help:
 	@echo "... src/control/decoder.o"
 	@echo "... src/control/decoder.i"
 	@echo "... src/control/decoder.s"
+	@echo "... src/control/forwarding_unit.o"
+	@echo "... src/control/forwarding_unit.i"
+	@echo "... src/control/forwarding_unit.s"
 	@echo "... src/control/hazard_detection_unit.o"
 	@echo "... src/control/hazard_detection_unit.i"
 	@echo "... src/control/hazard_detection_unit.s"

@@ -254,10 +254,24 @@ CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nicolastrejo/riscv-pipeline/src/control/hazard_detection_unit.cpp -o CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.s
 
+CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/control/forwarding_unit.cpp
+CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o -MF CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o.d -o CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/control/forwarding_unit.cpp
+
+CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nicolastrejo/riscv-pipeline/src/control/forwarding_unit.cpp > CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.i
+
+CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nicolastrejo/riscv-pipeline/src/control/forwarding_unit.cpp -o CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.s
+
 CMakeFiles/tests.dir/src/memory/memory.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/src/memory/memory.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/memory/memory.cpp
 CMakeFiles/tests.dir/src/memory/memory.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/tests.dir/src/memory/memory.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/tests.dir/src/memory/memory.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/memory/memory.cpp.o -MF CMakeFiles/tests.dir/src/memory/memory.cpp.o.d -o CMakeFiles/tests.dir/src/memory/memory.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/memory/memory.cpp
 
 CMakeFiles/tests.dir/src/memory/memory.cpp.i: cmake_force
@@ -271,7 +285,7 @@ CMakeFiles/tests.dir/src/memory/memory.cpp.s: cmake_force
 CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/memory/memory_formatter.cpp
 CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o -MF CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o.d -o CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/memory/memory_formatter.cpp
 
 CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.i: cmake_force
@@ -285,7 +299,7 @@ CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.s: cmake_force
 CMakeFiles/tests.dir/src/cpu/cpu.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/src/cpu/cpu.cpp.o: /Users/nicolastrejo/riscv-pipeline/src/cpu/cpu.cpp
 CMakeFiles/tests.dir/src/cpu/cpu.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/tests.dir/src/cpu/cpu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/tests.dir/src/cpu/cpu.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/cpu/cpu.cpp.o -MF CMakeFiles/tests.dir/src/cpu/cpu.cpp.o.d -o CMakeFiles/tests.dir/src/cpu/cpu.cpp.o -c /Users/nicolastrejo/riscv-pipeline/src/cpu/cpu.cpp
 
 CMakeFiles/tests.dir/src/cpu/cpu.cpp.i: cmake_force
@@ -311,6 +325,7 @@ tests_OBJECTS = \
 "CMakeFiles/tests.dir/src/control/control_unit.cpp.o" \
 "CMakeFiles/tests.dir/src/control/decoder.cpp.o" \
 "CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.o" \
+"CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o" \
 "CMakeFiles/tests.dir/src/memory/memory.cpp.o" \
 "CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o" \
 "CMakeFiles/tests.dir/src/cpu/cpu.cpp.o"
@@ -331,12 +346,13 @@ tests: CMakeFiles/tests.dir/src/datapath/reg_file.cpp.o
 tests: CMakeFiles/tests.dir/src/control/control_unit.cpp.o
 tests: CMakeFiles/tests.dir/src/control/decoder.cpp.o
 tests: CMakeFiles/tests.dir/src/control/hazard_detection_unit.cpp.o
+tests: CMakeFiles/tests.dir/src/control/forwarding_unit.cpp.o
 tests: CMakeFiles/tests.dir/src/memory/memory.cpp.o
 tests: CMakeFiles/tests.dir/src/memory/memory_formatter.cpp.o
 tests: CMakeFiles/tests.dir/src/cpu/cpu.cpp.o
 tests: CMakeFiles/tests.dir/build.make
 tests: CMakeFiles/tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/nicolastrejo/riscv-pipeline/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
