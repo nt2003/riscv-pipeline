@@ -1,14 +1,13 @@
 #pragma once
+#include <cstdint>
 
-class HazardDetector {
-    private:
-        bool PCL = true;
+struct LoadHazard {
+    uint32_t    opcode_ID;
+    uint32_t    SA_ID;
+    uint32_t    SB_ID;
 
-    public:
-        HazardDetector();
-
-        void setPCL(bool set);
-
-        bool getPCL();
-
+    uint32_t    opcode_EX;
+    uint32_t    DR_EX;
 };
+
+bool loadRegHazard(LoadHazard lh);

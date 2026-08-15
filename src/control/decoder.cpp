@@ -76,7 +76,7 @@ uint32_t extractImm(uint32_t instr, InstrType type) {
             return hi+lo+b12+b11;
         }
         case InstrType::U_type:{
-            return instr&0xFFFFF000;
+            return instr&0xFFFFF000; 
         }
         case InstrType::J_type:{
             uint32_t b20 = static_cast<uint32_t>(

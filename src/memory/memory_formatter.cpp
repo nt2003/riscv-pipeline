@@ -1,23 +1,23 @@
 #include "../../include/memory/memory_formatter.hpp"
 #include <stdexcept>
 
-void formatWrite(MemoryWrite mw) {
+void formatWrite(Memory& mem, MemoryWrite mw) {
     switch(mw.MSZ) {
         case MemSize::BYTE: {
-            mw.memory.write(mw.addr, static_cast<uint8_t>(
+            mem.write(mw.addr, static_cast<uint8_t>(
                 mw.data));
             break;
         }
         case MemSize::HALFWORD: {
-            mw.memory.write(mw.addr, static_cast<uint8_t>(
+            mem.write(mw.addr, static_cast<uint8_t>(
                 mw.data));
-            mw.memory.write(mw.addr+1, static_cast<uint8_t>(
+            mem.write(mw.addr+1, static_cast<uint8_t>(
                 mw.data>>8));
             break;
         }
         case MemSize::WORD: {
             for (size_t i=0; i<4; i++) {
-                mw.memory.write(mw.addr+i, static_cast<uint8_t>(
+                mem.write(mw.addr+i, static_cast<uint8_t>(
                     mw.data>>(8*i)));
             }
             break;
@@ -27,23 +27,23 @@ void formatWrite(MemoryWrite mw) {
         }
     }
 }
-uint32_t formatRead(MemoryRead mr) {
+uint32_t formatRead(Memory& mem, MemoryRead mr) {
     switch(mr.MSZ) {
         case MemSize::BYTE: {
             if (mr.MSN == MemSign::S) {
                 return static_cast<uint32_t>(
                     static_cast<int32_t>(
-                        static_cast<int8_t>(mr.memory.read(mr.addr))));
+                        static_cast<int8_t>(mem.read(mr.addr))));
             } else {
-                return static_cast<uint32_t> (mr.memory.read(mr.addr));
+                return static_cast<uint32_t> (mem.read(mr.addr));
             }
             break;
     
         }
         case MemSize::HALFWORD: {
             uint16_t half = 0; 
-            half += mr.memory.read(mr.addr);
-            half += mr.memory.read(mr.addr+1) << 8;
+            half += mem.read(mr.addr);
+            half += mem.read(mr.addr+1) << 8;
             if (mr.MSN == MemSign::S) {
                 return static_cast<uint32_t>(
                     static_cast<int32_t>(
@@ -57,7 +57,7 @@ uint32_t formatRead(MemoryRead mr) {
             uint32_t word = 0;
             for (size_t i=0; i<4; i++) {
                 word += static_cast<uint32_t>(
-                    mr.memory.read(mr.addr+i)) << (8*i);
+                    mem.read(mr.addr+i)) << (8*i);
             }
             return word;
             break;
@@ -68,5 +68,5 @@ uint32_t formatRead(MemoryRead mr) {
     }
 }
 uint32_t formatReadPC(Memory& memory, uint32_t pc) {
-    return formatRead({memory,pc,MemSign::U,MemSize::WORD});
+    return formatRead(memory, {pc,MemSign::U,MemSize::WORD});
 }

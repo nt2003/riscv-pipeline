@@ -33,3 +33,9 @@ size_t Memory::size() {
 }
 
 
+
+
+
+std::vector<uint8_t> Memory::getContents() {
+    return contents;
+}

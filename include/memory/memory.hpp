@@ -24,4 +24,8 @@ class Memory {
         void clear();
 
         size_t size();
+
+
+
+        std::vector<uint8_t> getContents();
 };

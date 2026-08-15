@@ -1,5 +1,6 @@
 #include "../../include/cpu/cpu.hpp"
 #include <iostream>
+#include <bitset>
 
 namespace {
     uint32_t add(ALU& adder, uint32_t inputA, uint32_t inputB) {
@@ -18,6 +19,10 @@ namespace {
         for (size_t i=0; i<data.size(); i++) {
             mux.setInput(i, data.at(i));
         }
+    }
+
+    DecodedInstr NOP() {
+        return decodeInstr(0x13);
     }
 }
 
@@ -42,22 +47,22 @@ std::pair<uint32_t, bool> CPU::getPC() {
 }
 
 IF_ID CPU::fetch() {
-    bool stall = false;
-    pc.second = !stall;
+    pc.second = !if_id.stall;
 
     updatePC();
 
     uint32_t currentPC = pc.first;
     uint32_t nextpc = pc.first + 4;
-    uint32_t rawInstr = formatRead({instrRAM, currentPC, MemSign::S, MemSize::WORD});
+    uint32_t rawInstr = formatRead(instrRAM, {currentPC, MemSign::S, MemSize::WORD});
 
     pcMux.setInput(0x0, nextpc);
 
-    return IF_ID{nextpc, currentPC, rawInstr, false};
+    return IF_ID{nextpc, currentPC, rawInstr, false, if_id.stall};
 }
 
 
 ID_EX CPU::decode() {
+    bool bubble = false;
     if (if_id.bubble) {
         ID_EX bubble;
         bubble.bubble = true;
@@ -66,6 +71,13 @@ ID_EX CPU::decode() {
 
     DecodedInstr d = decodeInstr(if_id.raw_instr);
     bool halt = (d.opcode == 0x73);
+
+    if (loadRegHazard({d.opcode, d.rs1, d.rs2, id_ex.opcode, id_ex.wbs.DR})) {
+        if_id.stall = true;
+        ID_EX bubble;
+        bubble.bubble = true;
+        return bubble;
+    } 
 
     pcMux.setInput(0x1, add(adder, d.imm, if_id.pc_curr));
     cu.setSigs(d);
@@ -81,19 +93,21 @@ ID_EX CPU::decode() {
                     getInputFwdMux_ID(
                         {cu.getDecodeSig().SA,
                         d.type == InstrType::B_type,     
-                        id_ex.EX_SA,
-                        ex_mem.ms.MD, 
-                        ex_mem.wbs.DR, 
-                        mem_wb.DR}));
+                        ex_mem.wbs.DR,
+                        ex_mem.wbs.LD,
+                        ex_mem.ms.MD,
+                        mem_wb.DR,
+                        mem_wb.LD}));
 
     FwdMuxB_ID.selectInput(
                     getInputFwdMux_ID(
                         {cu.getDecodeSig().SB,
-                        d.type == InstrType::B_type,  
-                        id_ex.EX_SB, 
+                        d.type == InstrType::B_type,     
+                        ex_mem.wbs.DR,
+                        ex_mem.wbs.LD,
                         ex_mem.ms.MD,
-                        ex_mem.wbs.DR, 
-                        mem_wb.DR}));
+                        mem_wb.DR,
+                        mem_wb.LD}));
 
 
     uint32_t muxOutputA = FwdMuxA_ID.getOutput();
@@ -106,7 +120,7 @@ ID_EX CPU::decode() {
 
     return {if_id.pc_curr, if_id.pc_next, muxOutputA, muxOutputB,
         d.imm, cu.getDecodeSig().SA, cu.getDecodeSig().SB, cu.getExecuteSig(), 
-        cu.getMemorySig(), cu.getWriteBackSig(), false, halt};
+        cu.getMemorySig(), cu.getWriteBackSig(), bubble, halt, d.opcode};
 }
 
 
@@ -119,15 +133,19 @@ EX_MEM CPU::execute() {
                     getInputFwdMux_EX(
                         {id_ex.EX_SA,
                         ex_mem.wbs.DR,
+                        ex_mem.wbs.LD,
                         ex_mem.ms.MD,
-                        mem_wb.DR}
+                        mem_wb.DR,
+                        mem_wb.LD}
                     ));
     FwdMuxB_EX.selectInput(
                     getInputFwdMux_EX(
                         {id_ex.EX_SB,
                         ex_mem.wbs.DR,
+                        ex_mem.wbs.LD,
                         ex_mem.ms.MD,
-                        mem_wb.DR}
+                        mem_wb.DR,
+                        mem_wb.LD}
                     ));
 
     setMuxInputs(aluInputAMux, {FwdMuxA_EX.getOutput(), id_ex.pc_curr});
@@ -139,7 +157,7 @@ EX_MEM CPU::execute() {
     alu.setAluOp(id_ex.es.FS);
 
     pcMux.setInput(0x2, alu.output());
-    return {alu.output(), aluInputBMux.getOutput(), id_ex.pc_next, 
+    return {alu.output(), FwdMuxB_EX.getOutput(), id_ex.pc_next, 
         id_ex.ms, id_ex.wbs, false, id_ex.halt};
 }
 
@@ -148,12 +166,14 @@ MEM_WB CPU::loadStoreMem() {
 
     dataRAM.setWriteEnable(ex_mem.ms.MW);
 
-    formatWrite({dataRAM, ex_mem.aluResult, ex_mem.data, ex_mem.ms.MSZ});
-    uint32_t load = formatRead({dataRAM, ex_mem.aluResult ,ex_mem.ms.MSN, 
-        ex_mem.ms.MSZ});
+    formatWrite(dataRAM, {ex_mem.aluResult, ex_mem.data, ex_mem.ms.MSZ});
+
+    uint32_t load = (ex_mem.ms.MD == 1) ? formatRead(dataRAM, {ex_mem.aluResult ,ex_mem.ms.MSN, 
+        ex_mem.ms.MSZ}) : 0;
 
     setMuxInputs(writeBackMux, {ex_mem.aluResult, load, ex_mem.pc_next});
-
+    writeBackMux.selectInput(ex_mem.ms.MD);
+    
     return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD, false, ex_mem.halt};
 }
 

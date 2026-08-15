@@ -46,7 +46,7 @@ class CPU {
         //END PROGRAM
         bool halted;
 
-        HazardDetector hd;
+        //HazardDetector hd;
 
         void updatePC();
 

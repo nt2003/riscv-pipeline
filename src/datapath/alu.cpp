@@ -137,3 +137,41 @@ bool ALU::getC() {
 bool ALU::getV() {
     return V_flag;
 }
+
+
+std::string symbol(ALUOp op) {
+    switch(op) {
+        case ALUOp::ADD: {
+            return " + ";
+        }
+        case ALUOp::SUB: {
+            return " - ";
+        }
+        case ALUOp::XOR: {
+            return " ^ ";
+        }
+        case ALUOp::AND: {
+            return " & ";
+        }
+        case ALUOp::OR: {
+            return " | ";
+        }
+        case ALUOp::SLL: {
+            return " << ";
+        }
+        case ALUOp::SRL: {
+            return " 0> ";
+        }
+        case ALUOp::SRA: {
+            return " >> ";
+        }
+        case ALUOp::SLT: {
+            return " < ";
+        }
+        case ALUOp::SLTU: {
+            return " |<| ";
+        }
+        default:
+            throw std::logic_error("Unknown op - symbol");
+    }
+}

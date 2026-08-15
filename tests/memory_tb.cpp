@@ -195,13 +195,12 @@ TEST_CASE("formatWrite - BYTE") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         2,
         0xAB,
         MemSize::BYTE
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     CHECK(mem.read(2) == 0xAB);
 
@@ -217,13 +216,12 @@ TEST_CASE("formatWrite - BYTE Maximum") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         0,
         0xFF,
         MemSize::BYTE
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     CHECK(mem.read(0) == 0xFF);
 }
@@ -239,13 +237,12 @@ TEST_CASE("formatWrite - HALFWORD") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         2,
         0x1234,
         MemSize::HALFWORD
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     // Little endian
     CHECK(mem.read(2) == 0x34);
@@ -262,13 +259,12 @@ TEST_CASE("formatWrite - HALFWORD All Bits") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         0,
         0xABCD,
         MemSize::HALFWORD
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     CHECK(mem.read(0) == 0xCD);
     CHECK(mem.read(1) == 0xAB);
@@ -285,13 +281,12 @@ TEST_CASE("formatWrite - WORD") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         2,
         0x12345678,
         MemSize::WORD
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     // Little endian
     CHECK(mem.read(2) == 0x78);
@@ -312,13 +307,12 @@ TEST_CASE("formatWrite - WORD All Bits") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         0,
         0xDEADBEEF,
         MemSize::WORD
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     CHECK(mem.read(0) == 0xEF);
     CHECK(mem.read(1) == 0xBE);
@@ -338,13 +332,12 @@ TEST_CASE("formatRead - BYTE Unsigned") {
     mem.write(0, 0xAB);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::U,
         MemSize::BYTE
     };
 
-    CHECK(formatRead(mr) == 0x000000AB);
+    CHECK(formatRead(mem,mr) == 0x000000AB);
 }
 
 
@@ -355,13 +348,12 @@ TEST_CASE("formatRead - BYTE Signed Positive") {
     mem.write(0, 0x7F);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::S,
         MemSize::BYTE
     };
 
-    CHECK(formatRead(mr) == 0x0000007F);
+    CHECK(formatRead(mem, mr) == 0x0000007F);
 }
 
 
@@ -372,13 +364,12 @@ TEST_CASE("formatRead - BYTE Signed Negative") {
     mem.write(0, 0x80);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::S,
         MemSize::BYTE
     };
 
-    CHECK(formatRead(mr) == 0xFFFFFF80);
+    CHECK(formatRead(mem, mr) == 0xFFFFFF80);
 }
 
 
@@ -389,13 +380,12 @@ TEST_CASE("formatRead - BYTE Signed -1") {
     mem.write(0, 0xFF);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::S,
         MemSize::BYTE
     };
 
-    CHECK(formatRead(mr) == 0xFFFFFFFF);
+    CHECK(formatRead(mem, mr) == 0xFFFFFFFF);
 }
 
 
@@ -406,13 +396,12 @@ TEST_CASE("formatRead - BYTE Unsigned High Value") {
     mem.write(0, 0xFF);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::U,
         MemSize::BYTE
     };
 
-    CHECK(formatRead(mr) == 0x000000FF);
+    CHECK(formatRead(mem, mr) == 0x000000FF);
 }
 
 
@@ -429,13 +418,12 @@ TEST_CASE("formatRead - HALFWORD Unsigned") {
     mem.write(1, 0x12);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::U,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0x00001234);
+    CHECK(formatRead(mem, mr) == 0x00001234);
 }
 
 
@@ -448,13 +436,12 @@ TEST_CASE("formatRead - HALFWORD Signed Positive") {
     mem.write(1, 0x12);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::S,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0x00001234);
+    CHECK(formatRead(mem, mr) == 0x00001234);
 }
 
 
@@ -469,13 +456,12 @@ TEST_CASE("formatRead - HALFWORD Signed Negative") {
     mem.write(1, 0x80);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::S,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0xFFFF8000);
+    CHECK(formatRead(mem, mr) == 0xFFFF8000);
 }
 
 
@@ -488,13 +474,12 @@ TEST_CASE("formatRead - HALFWORD Signed -1") {
     mem.write(1, 0xFF);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::S,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0xFFFFFFFF);
+    CHECK(formatRead(mem, mr) == 0xFFFFFFFF);
 }
 
 
@@ -507,13 +492,12 @@ TEST_CASE("formatRead - HALFWORD Unsigned High Value") {
     mem.write(1, 0xFF);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::U,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0x0000FFFF);
+    CHECK(formatRead(mem, mr) == 0x0000FFFF);
 }
 
 
@@ -532,13 +516,12 @@ TEST_CASE("formatRead - WORD") {
     mem.write(3, 0x12);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::U,
         MemSize::WORD
     };
 
-    CHECK(formatRead(mr) == 0x12345678);
+    CHECK(formatRead(mem, mr) == 0x12345678);
 }
 
 
@@ -553,13 +536,12 @@ TEST_CASE("formatRead - WORD All Bits") {
     mem.write(3, 0xDE);
 
     MemoryRead mr{
-        mem,
         0,
         MemSign::U,
         MemSize::WORD
     };
 
-    CHECK(formatRead(mr) == 0xDEADBEEF);
+    CHECK(formatRead(mem, mr) == 0xDEADBEEF);
 }
 
 
@@ -578,13 +560,12 @@ TEST_CASE("formatRead - WORD Nonzero Address") {
     mem.write(7, 0x12);
 
     MemoryRead mr{
-        mem,
         4,
         MemSign::U,
         MemSize::WORD
     };
 
-    CHECK(formatRead(mr) == 0x12345678);
+    CHECK(formatRead(mem, mr) == 0x12345678);
 }
 
 
@@ -597,13 +578,12 @@ TEST_CASE("formatRead - HALFWORD Nonzero Address") {
     mem.write(4, 0xAB);
 
     MemoryRead mr{
-        mem,
         3,
         MemSign::U,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0x0000ABCD);
+    CHECK(formatRead(mem, mr) == 0x0000ABCD);
 }
 
 
@@ -618,22 +598,20 @@ TEST_CASE("Memory - BYTE Write Read Round Trip") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         3,
         0xAB,
         MemSize::BYTE
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     MemoryRead mr{
-        mem,
         3,
         MemSign::U,
         MemSize::BYTE
     };
 
-    CHECK(formatRead(mr) == 0xAB);
+    CHECK(formatRead(mem, mr) == 0xAB);
 }
 
 
@@ -643,22 +621,20 @@ TEST_CASE("Memory - HALFWORD Write Read Round Trip") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         2,
         0xABCD,
         MemSize::HALFWORD
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     MemoryRead mr{
-        mem,
         2,
         MemSign::U,
         MemSize::HALFWORD
     };
 
-    CHECK(formatRead(mr) == 0xABCD);
+    CHECK(formatRead(mem, mr) == 0xABCD);
 }
 
 
@@ -668,22 +644,20 @@ TEST_CASE("Memory - WORD Write Read Round Trip") {
     mem.setWriteEnable(true);
 
     MemoryWrite mw{
-        mem,
         2,
         0xDEADBEEF,
         MemSize::WORD
     };
 
-    formatWrite(mw);
+    formatWrite(mem, mw);
 
     MemoryRead mr{
-        mem,
         2,
         MemSign::U,
         MemSize::WORD
     };
 
-    CHECK(formatRead(mr) == 0xDEADBEEF);
+    CHECK(formatRead(mem, mr) == 0xDEADBEEF);
 }
 
 

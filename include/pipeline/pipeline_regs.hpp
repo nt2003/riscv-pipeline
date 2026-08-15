@@ -31,6 +31,8 @@ struct IF_ID {
     uint32_t    pc_curr = 0;
     uint32_t    raw_instr = 0;
     bool        bubble = false;
+
+    bool        stall = false;
 };
 
 struct ID_EX {
@@ -49,6 +51,7 @@ struct ID_EX {
 
     bool            bubble = false;
     bool            halt = false;
+    uint32_t        opcode;
 };
 
 struct EX_MEM {

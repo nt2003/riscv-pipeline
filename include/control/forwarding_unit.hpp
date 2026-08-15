@@ -4,21 +4,24 @@
 struct FwdSig_ID {
     uint32_t    idsrc;
     bool        B_type;
-
-    uint32_t    exsrc;
-    uint32_t    exmd;
-
+    
     uint32_t    memdr;
+    bool        memld;
+    uint32_t    memmd;
+
     uint32_t    wbdr;
+    bool        wbld;
 };
 
 struct FwdSig_EX {
     uint32_t    exsrc;
 
     uint32_t    memdr;
+    bool        memld;
     uint32_t    memmd;
 
     uint32_t    wbdr;
+    bool        wbld;
 
 };
 

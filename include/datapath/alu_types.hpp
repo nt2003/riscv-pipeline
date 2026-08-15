@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 struct CompareSig {
     bool equal = false;
@@ -16,3 +17,5 @@ struct ALUFlags {
 enum class ALUOp {
     ADD, SUB, XOR, AND, OR, SLL, SRL, SRA, SLT, SLTU
 };
+
+std::string symbol(ALUOp op);
