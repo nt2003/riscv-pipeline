@@ -1515,18 +1515,15 @@ TEST_CASE("RV32I - BEQ taken") {
 TEST_CASE("RV32I - BEQ not taken") {
     Memory instrMem(128);
     Memory dataMem(64);
-
-    writeWord(instrMem, 0, rv32_encodeI(5, 0, 0x0, 1));
-    writeWord(instrMem, 4, rv32_encodeI(6, 0, 0x0, 2));
-    writeWord(instrMem, 8, rv32_encodeB(8, 2, 1, 0x0));
-
-    writeWord(instrMem, 12, rv32_encodeI(42, 0, 0x0, 3));
-    writeWord(instrMem, 16, rv32_encodeI(99, 0, 0x0, 3));
-
+    writeWord(instrMem, 0,  rv32_encodeI(5, 0, 0x0, 1));   // x1 = 5
+    writeWord(instrMem, 4,  rv32_encodeI(6, 0, 0x0, 2));   // x2 = 6
+    writeWord(instrMem, 8,  rv32_encodeB(8, 2, 1, 0x0));   // beq x1,x2,8
+    writeWord(instrMem, 12, rv32_encodeI(42, 0, 0x0, 3));  // x3 = 42 (should run if not taken)
+    writeWord(instrMem, 16, rv32_encodeI(99, 0, 0x0, 4));  // x4 = 99 (rd changed to x4)
     fillNops(instrMem, 20, 128);
 
     CPU cpu(instrMem, dataMem, 0);
-
+    
     for (int i = 0; i < 16; i++)
         cpu.cycle();
 
@@ -2014,9 +2011,8 @@ TEST_CASE("RV32I - Mixed ALU, memory, forwarding, branch and jump") {
     // Branch to PC 36.
     writeWord(instrMem, 28, rv32_encodeB(8, 6, 5, 0x0));
 
-    writeWord(instrMem, 32, rv32_encodeI(1, 0, 0x0, 7));
-    writeWord(instrMem, 36, rv32_encodeI(99, 0, 0x0, 7));
-
+    writeWord(instrMem, 32, rv32_encodeI(1, 0, 0x0, 7));   // x7 (wrong path)
+    writeWord(instrMem, 36, rv32_encodeI(99, 0, 0x0, 8));  // x8 (target) — rd changed
     fillNops(instrMem, 40, 256);
 
     CPU cpu(instrMem, dataMem, 0);

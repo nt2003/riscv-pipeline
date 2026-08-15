@@ -1,5 +1,6 @@
 #include "../../include/control/control_unit.hpp"
 #include <stdexcept>
+#include <iostream>
 
 ControlUnit::ControlUnit() {};
 
@@ -331,7 +332,8 @@ void ControlUnit::setCompareSig(CompareSig cs, uint32_t funct3, InstrType type) 
     if (type == InstrType::B_type) {
         switch(funct3) {
             case 0x0: {
-                fs.PCJ = static_cast<uint32_t>(cs.equal);
+                std::cout << cs.equal << '\n';
+                fs.PCJ = (cs.equal) ? 1 : 0;
                 break;
             }
             case 0x1: {

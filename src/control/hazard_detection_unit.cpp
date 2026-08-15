@@ -6,4 +6,6 @@ bool loadRegHazard(LoadHazard lh) {
     (lh.opcode_ID != 0x17) && ((lh.DR_EX == lh.SA_ID) || (lh.DR_EX == lh.SB_ID));
 }
 
-// execute opcode is load, decode opcode is not u-type or jal, execute dr is decode source A or B
+bool jalHazard(uint32_t opcode) {
+    return opcode == 0x6F;
+}

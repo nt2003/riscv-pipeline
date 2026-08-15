@@ -1,6 +1,9 @@
 #include "../../include/cpu/cpu.hpp"
 #include <iostream>
 #include <bitset>
+#include <iomanip>
+
+bool test = false;
 
 namespace {
     uint32_t add(ALU& adder, uint32_t inputA, uint32_t inputB) {
@@ -31,7 +34,7 @@ CPU::CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint):
     dataRAM(dataMem),
     pc({entryPoint,false}),
     halted(false), 
-    if_id{0, 0, 0, true}  // bubble = true: nothing fetched yet before cycle 1
+    if_id{0, 0, 0, true, false}  // bubble = true: nothing fetched yet before cycle 1
         {pcMux.setInput(0x0, entryPoint);
         pcMux.selectInput(0x0);}
 
@@ -47,9 +50,14 @@ std::pair<uint32_t, bool> CPU::getPC() {
 }
 
 IF_ID CPU::fetch() {
-    pc.second = !if_id.stall;
-
     updatePC();
+
+    if (test) {
+        std::cout << +pc.first << '\n';
+        test = false;
+    }
+
+    pc.second = !if_id.stall;
 
     uint32_t currentPC = pc.first;
     uint32_t nextpc = pc.first + 4;
@@ -57,7 +65,7 @@ IF_ID CPU::fetch() {
 
     pcMux.setInput(0x0, nextpc);
 
-    return IF_ID{nextpc, currentPC, rawInstr, false, if_id.stall};
+    return IF_ID{nextpc, currentPC, rawInstr, false, false};
 }
 
 
@@ -73,11 +81,13 @@ ID_EX CPU::decode() {
     bool halt = (d.opcode == 0x73);
 
     if (loadRegHazard({d.opcode, d.rs1, d.rs2, id_ex.opcode, id_ex.wbs.DR})) {
-        if_id.stall = true;
-        ID_EX bubble;
+        pc.second = false;
+
+        ID_EX bubble{};
         bubble.bubble = true;
         return bubble;
-    } 
+    }
+    
 
     pcMux.setInput(0x1, add(adder, d.imm, if_id.pc_curr));
     cu.setSigs(d);
@@ -158,7 +168,7 @@ EX_MEM CPU::execute() {
 
     pcMux.setInput(0x2, alu.output());
     return {alu.output(), FwdMuxB_EX.getOutput(), id_ex.pc_next, 
-        id_ex.ms, id_ex.wbs, false, id_ex.halt};
+        id_ex.ms, id_ex.wbs, id_ex.halt};
 }
 
 MEM_WB CPU::loadStoreMem() {
@@ -172,14 +182,22 @@ MEM_WB CPU::loadStoreMem() {
         ex_mem.ms.MSZ}) : 0;
 
     setMuxInputs(writeBackMux, {ex_mem.aluResult, load, ex_mem.pc_next});
+    std::cout << ex_mem.pc_next << '\n';
     writeBackMux.selectInput(ex_mem.ms.MD);
-    
-    return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD, false, ex_mem.halt};
+    std::cout << +ex_mem.ms.MD << ", " << +writeBackMux.getOutput() << '\n';
+    return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD};
 }
 
 void CPU::cycle() {
     IF_ID ifid_next = fetch();
     ID_EX idex_next = decode();
+
+    // Hazard detected during decode:
+    // keep the dependent instruction in IF/ID.
+    if (!pc.second) {
+        ifid_next = if_id;
+    }
+
     EX_MEM exmem_next = execute();
     MEM_WB memwb_next = loadStoreMem();
 

@@ -11,3 +11,5 @@ struct LoadHazard {
 };
 
 bool loadRegHazard(LoadHazard lh);
+
+bool jalHazard (uint32_t opcode);

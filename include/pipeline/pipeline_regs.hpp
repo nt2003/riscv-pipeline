@@ -62,7 +62,6 @@ struct EX_MEM {
     MemorySig       ms;
     WriteBackSig    wbs;
 
-    bool            bubble = false;
     bool            halt = false;
 };
 
@@ -71,7 +70,4 @@ struct MEM_WB {
 
     uint32_t    DR = 0;
     bool        LD = false;
-    
-    bool        bubble = false;
-    bool        halt = false;
 };
