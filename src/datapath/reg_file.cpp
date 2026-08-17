@@ -2,9 +2,12 @@
 
 RegFile::RegFile(size_t size): contents(size) {}
 
-void RegFile::setRegSigs(RegfileControl rc) {
+void RegFile::setRegSigs_ID(RegfileControl_ID rc) {
     srcAddrA = rc.SA;
     srcAddrB = rc.SB;
+}
+
+void RegFile::setRegSigs_WB(RegfileControl_WB rc) {
     destReg = rc.DR;
     writeEnable = rc.LD;
 }
@@ -27,3 +30,13 @@ std::vector<uint32_t> RegFile::getRegFile() {
     return contents;
 }
 
+
+
+
+bool RegFile::getEnable() {
+    return writeEnable;
+}
+
+uint32_t RegFile::getDestReg() {
+    return destReg;
+}

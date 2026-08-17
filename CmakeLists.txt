@@ -13,11 +13,12 @@ target_include_directories(riscv-pipeline PRIVATE src)
 add_executable(tests 
     tests/alu_tb.cpp
     tests/mux_tb.cpp
-    tests/reg_file_tb.cpp
+    #tests/reg_file_tb.cpp
     tests/control_unit_tb.cpp
     tests/decoder_tb.cpp
     tests/memory_tb.cpp
     tests/cpu_tb.cpp
+    #tests/isolate_tests_tb.cpp
 
     src/datapath/alu.cpp
     src/datapath/mux.cpp

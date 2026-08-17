@@ -22,3 +22,7 @@ void Mux::setEnable(bool ena) {
 void Mux::selectInput(uint32_t slot) {
     inputSelected = slot;
 }
+
+uint32_t Mux::getInput(uint32_t slot) {
+    return inputs.at(slot);
+}

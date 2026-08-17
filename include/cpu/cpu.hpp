@@ -46,7 +46,7 @@ class CPU {
         //END PROGRAM
         bool halted;
 
-        //HazardDetector hd;
+        HazardDetector hd;
 
         void updatePC();
 
@@ -61,6 +61,8 @@ class CPU {
 
         MEM_WB loadStoreMem();
 
+        void writeBack();
+
         void cycle();
 
         bool isHalted();
@@ -72,5 +74,9 @@ class CPU {
 
         
         std::pair<uint32_t, bool> getPC();
+
+        uint32_t getWriteBackMux();
+
+        uint32_t getMux(Mux mux, uint32_t slot);
         
 };

@@ -31,8 +31,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/tests.dir/tests/memory_tb.cpp.o.d"
   "CMakeFiles/tests.dir/tests/mux_tb.cpp.o"
   "CMakeFiles/tests.dir/tests/mux_tb.cpp.o.d"
-  "CMakeFiles/tests.dir/tests/reg_file_tb.cpp.o"
-  "CMakeFiles/tests.dir/tests/reg_file_tb.cpp.o.d"
   "tests"
   "tests.pdb"
 )

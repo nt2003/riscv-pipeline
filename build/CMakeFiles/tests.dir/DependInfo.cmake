@@ -24,7 +24,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/nicolastrejo/riscv-pipeline/tests/decoder_tb.cpp" "CMakeFiles/tests.dir/tests/decoder_tb.cpp.o" "gcc" "CMakeFiles/tests.dir/tests/decoder_tb.cpp.o.d"
   "/Users/nicolastrejo/riscv-pipeline/tests/memory_tb.cpp" "CMakeFiles/tests.dir/tests/memory_tb.cpp.o" "gcc" "CMakeFiles/tests.dir/tests/memory_tb.cpp.o.d"
   "/Users/nicolastrejo/riscv-pipeline/tests/mux_tb.cpp" "CMakeFiles/tests.dir/tests/mux_tb.cpp.o" "gcc" "CMakeFiles/tests.dir/tests/mux_tb.cpp.o.d"
-  "/Users/nicolastrejo/riscv-pipeline/tests/reg_file_tb.cpp" "CMakeFiles/tests.dir/tests/reg_file_tb.cpp.o" "gcc" "CMakeFiles/tests.dir/tests/reg_file_tb.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -18,7 +18,9 @@ class RegFile {
     public:
         RegFile(size_t size);
 
-        void setRegSigs(RegfileControl rc);
+        void setRegSigs_ID(RegfileControl_ID rc);
+
+        void setRegSigs_WB(RegfileControl_WB rc);
 
         void writeReg(uint32_t dataIn);
 
@@ -28,6 +30,10 @@ class RegFile {
         uint32_t getDataB();
 
         std::vector<uint32_t> getRegFile();
+
+
+        bool getEnable();
+        uint32_t getDestReg();
 
         //void resetBits();
 

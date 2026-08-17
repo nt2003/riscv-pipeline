@@ -1,13 +1,11 @@
 #include "../../include/control/forwarding_unit.hpp"
+#include <iostream>
 
 uint32_t getInputFwdMux_ID(FwdSig_ID fs) {
-    if (fs.B_type) {
-        return 0x0;
-    }
-    else if (fs.memld && (fs.memdr == fs.idsrc) && (fs.memmd == 0) ) {
+    if (fs.memld &&(fs.memdr == fs.idsrc) && (fs.memmd == 0) ) {
         return 0x1;
     }
-    else if (fs.wbld && (fs.wbdr == fs.idsrc)) {
+    else if (fs.wbld &&(fs.wbdr == fs.idsrc)) {
         return 0x2;
     }
     else {

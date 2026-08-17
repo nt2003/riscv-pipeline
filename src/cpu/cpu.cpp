@@ -53,7 +53,6 @@ IF_ID CPU::fetch() {
     updatePC();
 
     if (test) {
-        std::cout << +pc.first << '\n';
         test = false;
     }
 
@@ -72,7 +71,7 @@ IF_ID CPU::fetch() {
 ID_EX CPU::decode() {
     bool bubble = false;
     if (if_id.bubble) {
-        ID_EX bubble;
+        ID_EX bubble {};
         bubble.bubble = true;
         return bubble; // everything else stays at struct defaults (all zero/false)
     }
@@ -80,21 +79,33 @@ ID_EX CPU::decode() {
     DecodedInstr d = decodeInstr(if_id.raw_instr);
     bool halt = (d.opcode == 0x73);
 
-    if (loadRegHazard({d.opcode, d.rs1, d.rs2, id_ex.opcode, id_ex.wbs.DR})) {
+    if (hd.loadRegHazard({d.opcode, d.rs1, d.rs2, id_ex.opcode, id_ex.wbs.DR})) {
         pc.second = false;
 
         ID_EX bubble{};
         bubble.bubble = true;
         return bubble;
     }
-    
+
+    if (hd.branchRegHazard({d.opcode, d.rs1, d.rs2, id_ex.wbs.DR, id_ex.wbs.LD})) {
+        pc.second = false;
+        ID_EX bubble{};
+        bubble.bubble = true;
+        return bubble;
+    }
+
+    if (hd.jalHazardDetect(d.opcode)) {
+        hd.setJalHazard(true);
+    }
 
     pcMux.setInput(0x1, add(adder, d.imm, if_id.pc_curr));
     cu.setSigs(d);
 
-    regFile.setRegSigs({mem_wb.DR, cu.getDecodeSig().SA,
-        cu.getDecodeSig().SB, mem_wb.LD});
-    regFile.writeReg(mem_wb.Dout);
+    if (hd.detectZeroRegWrite(cu.getWriteBackSig())) {
+        hd.setZeroRegWrite(true);   
+    }
+
+    regFile.setRegSigs_ID({cu.getDecodeSig().SA, cu.getDecodeSig().SB});
     
     setMuxInputs(FwdMuxA_ID, {regFile.getDataA(), ex_mem.aluResult, mem_wb.Dout});
     setMuxInputs(FwdMuxB_ID, {regFile.getDataB(), ex_mem.aluResult, mem_wb.Dout});
@@ -119,15 +130,17 @@ ID_EX CPU::decode() {
                         mem_wb.DR,
                         mem_wb.LD}));
 
-
     uint32_t muxOutputA = FwdMuxA_ID.getOutput();
     uint32_t muxOutputB = FwdMuxB_ID.getOutput();
 
     cu.setCompareSig(
         compare(comparator, muxOutputA, muxOutputB), d.funct3, d.type);
+    
 
     pcMux.selectInput(cu.getFetchSig().PCJ);
-
+    if (cu.getFetchSig().PCJ != 0) {
+        hd.setJalHazard(true);   // general control-flow flush trigger — JAL, JALR, taken branch
+    }
     return {if_id.pc_curr, if_id.pc_next, muxOutputA, muxOutputB,
         d.imm, cu.getDecodeSig().SA, cu.getDecodeSig().SB, cu.getExecuteSig(), 
         cu.getMemorySig(), cu.getWriteBackSig(), bubble, halt, d.opcode};
@@ -166,8 +179,10 @@ EX_MEM CPU::execute() {
     alu.setAluData(aluInputAMux.getOutput(), aluInputBMux.getOutput());
     alu.setAluOp(id_ex.es.FS);
 
-    pcMux.setInput(0x2, alu.output());
-    return {alu.output(), FwdMuxB_EX.getOutput(), id_ex.pc_next, 
+    uint32_t output = (!id_ex.wbs.DR && id_ex.wbs.LD) ? 0 : alu.output();
+
+    pcMux.setInput(0x2, output);
+    return {output, FwdMuxB_EX.getOutput(), id_ex.pc_next, 
         id_ex.ms, id_ex.wbs, id_ex.halt};
 }
 
@@ -182,13 +197,17 @@ MEM_WB CPU::loadStoreMem() {
         ex_mem.ms.MSZ}) : 0;
 
     setMuxInputs(writeBackMux, {ex_mem.aluResult, load, ex_mem.pc_next});
-    std::cout << ex_mem.pc_next << '\n';
     writeBackMux.selectInput(ex_mem.ms.MD);
-    std::cout << +ex_mem.ms.MD << ", " << +writeBackMux.getOutput() << '\n';
     return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD};
 }
 
+void CPU::writeBack() {
+    regFile.setRegSigs_WB({mem_wb.DR, mem_wb.LD});
+    regFile.writeReg(mem_wb.Dout);
+}
+
 void CPU::cycle() {
+
     IF_ID ifid_next = fetch();
     ID_EX idex_next = decode();
 
@@ -197,14 +216,36 @@ void CPU::cycle() {
     if (!pc.second) {
         ifid_next = if_id;
     }
+    if (hd.getJalHazard()) {
+        ifid_next = IF_ID{};       // bubble — NOT if_id
+        ifid_next.bubble = true;
+        hd.setJalHazard(false);
+    }
+
 
     EX_MEM exmem_next = execute();
     MEM_WB memwb_next = loadStoreMem();
 
+    // std::cout << '\n' << "IF/ID" << '\n' << 
+    //     "bubble: " << if_id.bubble << ", " <<
+    //     "curr pc: " << +if_id.pc_curr << ", " <<
+    //     "next pc: " << +if_id.pc_next << ", " <<
+    //     "raw instr: " << std::hex << if_id.raw_instr << ", " <<
+    //     "stall: " << if_id.stall << '\n';
+
+    // std::cout << '\n' << "ID/EX" << '\n' << 
+    //     "bubble: " << id_ex.bubble << ", " <<
+    //     "curr pc: " << +id_ex.pc_curr << ", " <<
+    //     "next pc: " << +id_ex.pc_next << ", " <<
+    //     "imm: " << +id_ex.imm << ", " <<
+    //     "halt: " << id_ex.halt << '\n';
+
+    
     if_id = ifid_next;
     id_ex = idex_next;
     ex_mem = exmem_next;
     mem_wb = memwb_next;
+    writeBack();
 }
 
 bool CPU::isHalted() {
@@ -213,4 +254,12 @@ bool CPU::isHalted() {
 
 std::vector<uint32_t> CPU::getRegFile() {
     return regFile.getRegFile();
+}
+
+uint32_t CPU::getWriteBackMux() {
+    return writeBackMux.getOutput();
+}
+
+uint32_t CPU::getMux(Mux mux, uint32_t slot) {
+    return mux.getInput(slot);
 }

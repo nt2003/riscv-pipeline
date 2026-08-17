@@ -2009,11 +2009,13 @@ TEST_CASE("RV32I - Mixed ALU, memory, forwarding, branch and jump") {
     writeWord(instrMem, 24, rv32_encodeI(42, 0, 0x0, 6));
 
     // Branch to PC 36.
-    writeWord(instrMem, 28, rv32_encodeB(8, 6, 5, 0x0));
+    writeWord(instrMem, 28, rv32_encodeB(16, 6, 5, 0x0));
 
     writeWord(instrMem, 32, rv32_encodeI(1, 0, 0x0, 7));   // x7 (wrong path)
-    writeWord(instrMem, 36, rv32_encodeI(99, 0, 0x0, 8));  // x8 (target) — rd changed
-    fillNops(instrMem, 40, 256);
+    writeWord(instrMem, 36, rv32_encodeI(1, 0, 0x0, 9));
+    writeWord(instrMem, 40, rv32_encodeI(1, 0, 0x0, 10));
+    writeWord(instrMem, 44, rv32_encodeI(99, 0, 0x0, 8));  // x8 (target) — rd changed
+    fillNops(instrMem, 48, 256);
 
     CPU cpu(instrMem, dataMem, 0);
 
@@ -2030,7 +2032,9 @@ TEST_CASE("RV32I - Mixed ALU, memory, forwarding, branch and jump") {
     CHECK(regs[6] == 42);
 
     // Proves branch was taken AND wrong path was flushed.
-    CHECK(regs[7] == 99);
+    CHECK(regs[7] == 0);
+    CHECK(regs[9] == 0);
+    CHECK(regs[10] == 0);
 }
 
 
@@ -2131,4 +2135,82 @@ TEST_CASE("RV32I - Final register file sanity") {
     CHECK(regs[13] == 0);
     CHECK(regs[14] == 0);
     CHECK(regs[15] == 0);
+}
+
+TEST_CASE("RV32I - Forwarding does not leak discarded x0 write (ID stage)") {
+    Memory instrMem(128);
+    Memory dataMem(64);
+
+    // addi x0, x0, 99   -- legal encoding, architecturally a no-op (write to x0 discarded)
+    writeWord(instrMem, 0, rv32_encodeI(99, 0, 0x0, 0));
+    // addi x1, x0, 5    -- reads x0 as SA; without a same-cycle exclusion, ID-stage
+    //                      forwarding could match DR_EX==0==SA_ID and forward the
+    //                      discarded 99 instead of the true value 0
+    writeWord(instrMem, 4, rv32_encodeI(5, 0, 0x0, 1));
+
+    fillNops(instrMem, 8, 128);
+
+    CPU cpu(instrMem, dataMem, 0);
+    for (int i = 0; i < 10; i++) cpu.cycle();
+
+    auto regs = cpu.getRegFile();
+    CHECK(regs[0] == 0);   // x0 must never actually hold 99
+    CHECK(regs[1] == 5);   // must not have forwarded 99 as x0's "value"
+}
+
+TEST_CASE("RV32I - Forwarding does not leak discarded x0 write (EX stage)") {
+    Memory instrMem(128);
+    Memory dataMem(64);
+
+    writeWord(instrMem, 0, rv32_encodeI(99, 0, 0x0, 0));   // addi x0, x0, 99
+    writeWord(instrMem, 4, rv32_encodeI(1, 0, 0x0, 2));    // addi x2, x0, 1  (unrelated filler)
+    // add x1, x0, x0  -- both sources are x0; EX-stage forwarding must not
+    // pick up the discarded 99 sitting in ex_mem/mem_wb for DR==0
+    writeWord(instrMem, 8, rv32_encodeR(0x00, 0, 0, 0x0, 1));
+
+    fillNops(instrMem, 12, 128);
+
+    CPU cpu(instrMem, dataMem, 0);
+    for (int i = 0; i < 12; i++) cpu.cycle();
+
+    auto regs = cpu.getRegFile();
+    CHECK(regs[1] == 0);   // x0 + x0 must be 0, not 99 or 198
+}
+TEST_CASE("RV32I - Forwarding still works for nonzero registers after x0 guard") {
+    Memory instrMem(128);
+    Memory dataMem(64);
+
+    writeWord(instrMem, 0, rv32_encodeI(7, 0, 0x0, 3));    // addi x3, x0, 7
+    writeWord(instrMem, 4, rv32_encodeI(1, 3, 0x0, 4));    // addi x4, x3, 1  -- needs x3 forwarded
+
+    fillNops(instrMem, 8, 128);
+
+    CPU cpu(instrMem, dataMem, 0);
+    for (int i = 0; i < 8; i++) cpu.cycle();
+
+    auto regs = cpu.getRegFile();
+    CHECK(regs[3] == 7);
+    CHECK(regs[4] == 8);   // fails if the guard broke real (nonzero) forwarding
+}
+
+TEST_CASE("RV32I - Branch forwarding does not leak discarded x0 write") {
+    Memory instrMem(128);
+    Memory dataMem(64);
+
+    writeWord(instrMem, 0, rv32_encodeI(50, 0, 0x0, 0));   // addi x0, x0, 50 (discarded)
+    // beq x0, x0, 8 -- if this used a leaked '50' for one side it wouldn't be equal;
+    // must correctly see 0 == 0 and take the branch
+    writeWord(instrMem, 4, rv32_encodeB(8, 0, 0, 0x0));
+
+    writeWord(instrMem, 8,  rv32_encodeI(1, 0, 0x0, 5));   // wrong path: x5 = 1
+    writeWord(instrMem, 12, rv32_encodeI(99, 0, 0x0, 6));  // target: x6 = 99
+
+    fillNops(instrMem, 16, 128);
+
+    CPU cpu(instrMem, dataMem, 0);
+    for (int i = 0; i < 12; i++) cpu.cycle();
+
+    auto regs = cpu.getRegFile();
+    CHECK(regs[5] == 0);    // wrong path flushed
+    CHECK(regs[6] == 99);   // branch correctly taken (0==0), even with a poisoned x0 attempt in flight
 }

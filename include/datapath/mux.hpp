@@ -19,4 +19,7 @@ class Mux {
         void setEnable(bool ena);
 
         void selectInput(uint32_t slot);
+
+
+        uint32_t getInput(uint32_t slot);
 };

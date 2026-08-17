@@ -5,6 +5,7 @@
 ControlUnit::ControlUnit() {};
 
 void ControlUnit::setSigs(DecodedInstr instr) {
+    fs.PCJ = 0;
     switch(instr.opcode) {
         case 0x33: {
             fs.PCJ = 0x0;
@@ -332,7 +333,6 @@ void ControlUnit::setCompareSig(CompareSig cs, uint32_t funct3, InstrType type) 
     if (type == InstrType::B_type) {
         switch(funct3) {
             case 0x0: {
-                std::cout << cs.equal << '\n';
                 fs.PCJ = (cs.equal) ? 1 : 0;
                 break;
             }

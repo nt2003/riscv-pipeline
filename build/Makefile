@@ -604,30 +604,6 @@ tests/mux_tb.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/mux_tb.cpp.s
 .PHONY : tests/mux_tb.cpp.s
 
-tests/reg_file_tb.o: tests/reg_file_tb.cpp.o
-.PHONY : tests/reg_file_tb.o
-
-# target to build an object file
-tests/reg_file_tb.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/reg_file_tb.cpp.o
-.PHONY : tests/reg_file_tb.cpp.o
-
-tests/reg_file_tb.i: tests/reg_file_tb.cpp.i
-.PHONY : tests/reg_file_tb.i
-
-# target to preprocess a source file
-tests/reg_file_tb.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/reg_file_tb.cpp.i
-.PHONY : tests/reg_file_tb.cpp.i
-
-tests/reg_file_tb.s: tests/reg_file_tb.cpp.s
-.PHONY : tests/reg_file_tb.s
-
-# target to generate assembly for a file
-tests/reg_file_tb.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/reg_file_tb.cpp.s
-.PHONY : tests/reg_file_tb.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -692,9 +668,6 @@ help:
 	@echo "... tests/mux_tb.o"
 	@echo "... tests/mux_tb.i"
 	@echo "... tests/mux_tb.s"
-	@echo "... tests/reg_file_tb.o"
-	@echo "... tests/reg_file_tb.i"
-	@echo "... tests/reg_file_tb.s"
 .PHONY : help
 
 

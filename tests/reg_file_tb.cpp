@@ -22,10 +22,12 @@ TEST_CASE("RegFile - Constructor") {
 TEST_CASE("RegFile - Default Read") {
     RegFile rf(32);
 
-    rf.setRegSigs({
-        0,      // DR
+    rf.setRegSigs_ID({
         0,      // SA
         0,      // SB
+    });
+    rf.setRegSigs_WB({
+        0,      // DR
         false   // LD
     });
 
@@ -38,20 +40,24 @@ TEST_CASE("RegFile - Write Register") {
     RegFile rf(32);
 
     // Write 123 to x1
-    rf.setRegSigs({
-        1,      // DR
+    rf.setRegSigs_ID({
         0,      // SA
         0,      // SB
+    });
+    rf.setRegSigs_WB({
+        1,      // DR
         true    // LD
     });
 
     rf.writeReg(123);
 
     // Read x1
-    rf.setRegSigs({
-        0,
+    rf.setRegSigs_ID({
         1,      // SA
         1,      // SB
+    });
+    rf.setRegSigs_WB({
+        0,
         false
     });
 
