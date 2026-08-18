@@ -40,7 +40,7 @@ CPU::CPU(Memory& instMem, Memory& dataMem, uint32_t entryPoint):
 
 
 void CPU::updatePC() {
-    if (!pc.second || id_ex.halt) {
+    if (!pc.second || haltedLatch) {
         return; // PCL held low (hazard stall), or halted — hold PC
     }
     pc.first = pcMux.getOutput();
@@ -52,8 +52,9 @@ std::pair<uint32_t, bool> CPU::getPC() {
 IF_ID CPU::fetch() {
     updatePC();
 
-    if (test) {
-        test = false;
+
+    if (haltedLatch) {
+        return {pc.first, pc.first, 0x13, false, false};
     }
 
     pc.second = !if_id.stall;
@@ -61,7 +62,6 @@ IF_ID CPU::fetch() {
     uint32_t currentPC = pc.first;
     uint32_t nextpc = pc.first + 4;
     uint32_t rawInstr = formatRead(instrRAM, {currentPC, MemSign::S, MemSize::WORD});
-
     pcMux.setInput(0x0, nextpc);
 
     return IF_ID{nextpc, currentPC, rawInstr, false, false};
@@ -77,7 +77,9 @@ ID_EX CPU::decode() {
     }
 
     DecodedInstr d = decodeInstr(if_id.raw_instr);
-    bool halt = (d.opcode == 0x73);
+
+        bool halt = (d.opcode == 0x73);
+        haltedLatch = haltedLatch || halt;
 
     if (hd.loadRegHazard({d.opcode, d.rs1, d.rs2, id_ex.opcode, id_ex.wbs.DR})) {
         pc.second = false;
@@ -138,7 +140,7 @@ ID_EX CPU::decode() {
     
 
     pcMux.selectInput(cu.getFetchSig().PCJ);
-    if (cu.getFetchSig().PCJ != 0) {
+    if (cu.getFetchSig().PCJ != 0 || halt) {
         hd.setJalHazard(true);   // general control-flow flush trigger — JAL, JALR, taken branch
     }
     return {if_id.pc_curr, if_id.pc_next, muxOutputA, muxOutputB,
@@ -176,6 +178,7 @@ EX_MEM CPU::execute() {
     setMuxInputs(aluInputBMux, {FwdMuxB_EX.getOutput(), id_ex.imm});
     aluInputBMux.selectInput(id_ex.es.MB);
 
+    // std::cout << "ALU inputs: " << +aluInputAMux.getOutput() << ", " << aluInputBMux.getOutput() << '\n';
     alu.setAluData(aluInputAMux.getOutput(), aluInputBMux.getOutput());
     alu.setAluOp(id_ex.es.FS);
 
@@ -187,7 +190,7 @@ EX_MEM CPU::execute() {
 }
 
 MEM_WB CPU::loadStoreMem() {
-    halted = ex_mem.halt;
+    //halted = ex_mem.halt;
 
     dataRAM.setWriteEnable(ex_mem.ms.MW);
 
@@ -198,21 +201,28 @@ MEM_WB CPU::loadStoreMem() {
 
     setMuxInputs(writeBackMux, {ex_mem.aluResult, load, ex_mem.pc_next});
     writeBackMux.selectInput(ex_mem.ms.MD);
-    return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD};
+    return {writeBackMux.getOutput(), ex_mem.wbs.DR, ex_mem.wbs.LD, ex_mem.halt};
 }
 
-void CPU::writeBack() {
+void CPU::writeBack(bool mem_wb_halt) {
+    // std::cout<< "WB: " << mem_wb.Dout << ", " << mem_wb.DR << '\n';
+    
     regFile.setRegSigs_WB({mem_wb.DR, mem_wb.LD});
     regFile.writeReg(mem_wb.Dout);
+    
+    halted = mem_wb_halt;
 }
 
 void CPU::cycle() {
-
     IF_ID ifid_next = fetch();
     ID_EX idex_next = decode();
 
     // Hazard detected during decode:
     // keep the dependent instruction in IF/ID.
+    if (haltedLatch) {
+        ifid_next.raw_instr = 0x13;
+    }
+
     if (!pc.second) {
         ifid_next = if_id;
     }
@@ -225,27 +235,14 @@ void CPU::cycle() {
 
     EX_MEM exmem_next = execute();
     MEM_WB memwb_next = loadStoreMem();
+   
+    writeBack(mem_wb.halt);
 
-    // std::cout << '\n' << "IF/ID" << '\n' << 
-    //     "bubble: " << if_id.bubble << ", " <<
-    //     "curr pc: " << +if_id.pc_curr << ", " <<
-    //     "next pc: " << +if_id.pc_next << ", " <<
-    //     "raw instr: " << std::hex << if_id.raw_instr << ", " <<
-    //     "stall: " << if_id.stall << '\n';
-
-    // std::cout << '\n' << "ID/EX" << '\n' << 
-    //     "bubble: " << id_ex.bubble << ", " <<
-    //     "curr pc: " << +id_ex.pc_curr << ", " <<
-    //     "next pc: " << +id_ex.pc_next << ", " <<
-    //     "imm: " << +id_ex.imm << ", " <<
-    //     "halt: " << id_ex.halt << '\n';
-
-    
     if_id = ifid_next;
     id_ex = idex_next;
     ex_mem = exmem_next;
     mem_wb = memwb_next;
-    writeBack();
+
 }
 
 bool CPU::isHalted() {

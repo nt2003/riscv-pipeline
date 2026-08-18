@@ -45,6 +45,7 @@ class CPU {
 
         //END PROGRAM
         bool halted;
+        bool haltedLatch = false;
 
         HazardDetector hd;
 
@@ -61,7 +62,7 @@ class CPU {
 
         MEM_WB loadStoreMem();
 
-        void writeBack();
+        void writeBack(bool mem_wb_halt);
 
         void cycle();
 

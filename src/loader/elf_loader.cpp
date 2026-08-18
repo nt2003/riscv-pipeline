@@ -58,6 +58,7 @@ bool loadElf(const std::string& path, Memory& instMem, Memory& dataMem, uint32_t
             target.write(ph.p_vaddr + b, fileBytes.at(ph.p_offset + b));
         }
     }
+    instMem.resize(instMem.size() + 4);
     instMem.setWriteEnable(false);
     dataMem.setWriteEnable(false);
     std::cerr << "instMem[0] right after write = " << (int)instMem.read(0) << '\n';

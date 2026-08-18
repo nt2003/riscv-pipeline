@@ -7,7 +7,7 @@
 #include <stdexcept>
 
 int main() {
-    std::string path = "/Users/nicolastrejo/riscv-sim/tests/mini.elf";
+    std::string path = "/Users/nicolastrejo/riscv-pipeline/mini_test.elf";
     uint32_t entryPoint;
     Memory instRAM(65536);
     Memory dataRAM(65536);
@@ -16,19 +16,21 @@ int main() {
         std::cerr << "Failed to load" << '\n';
         return 1;
     }
-    std::cout << entryPoint << '\n';
-    std::cout << formatReadPC(instRAM, entryPoint) << '\n';
 
     CPU cpu(instRAM, dataRAM, entryPoint);
 
     try {
+        int i = 0;
         while (!cpu.isHalted()) {
             cpu.cycle();
+            i++;
         }
     } catch (std::runtime_error& e) {
         std::cout << "Unknown instruction " << e.what() << '\n';
+        return 1;
     } catch (std::out_of_range& e) {
         std::cout << "Memory Bounds error " << e.what() << '\n';
+        return 2;
     }
 
     std::cout << "Success!" << '\n';

@@ -70,4 +70,6 @@ struct MEM_WB {
 
     uint32_t    DR = 0;
     bool        LD = false;
+
+    bool        halt = false;
 };
